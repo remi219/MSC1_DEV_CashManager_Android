@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CashManager</string>
+    <!-- Strings related to login -->
+    <string name="prompt_ip">Ip</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Connect to server</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Connected to server"</string>
+    <string name="invalid_ip">Not a valid ip</string>
+    <string name="invalid_password">Password must be at least 4 characters long</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="instruction">Enter IP and password of the server you wan\'t to be connected to</string>
+</resources>
