@@ -7,10 +7,11 @@
     tools:context=".ui.payment.PaymentActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/cancel"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="cancelOperation"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,8 +22,9 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="backToRegister"
         android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -46,11 +48,12 @@
         app:layout_constraintTop_toBottomOf="@+id/connection" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/scan_cheque_btn"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:onClick="scanQRcode"
         android:text="Scan Cheque"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
@@ -58,33 +61,34 @@
         app:layout_constraintTop_toBottomOf="@+id/bill_total" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/scan_nfc_btn"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="scanNFC"
         android:text="Scan NFC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/scan_cheque_btn" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/status_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/scan_nfc_btn" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/payment_status_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="Payment sucessful"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/status_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
