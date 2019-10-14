@@ -15,6 +15,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import java.nio.charset.Charset
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 
 class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
@@ -34,9 +35,13 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
         if(result != null){
             // Todo: send data to the api
+            Toast.makeText(this, "Todo: waiting answer from the server", Toast.LENGTH_SHORT).show()
+
             if(result.contents != null){
                 // Todo: => payment success !
                 statusTextView.text = resources.getString(R.string.cheque_authorized)
+                statusTextView.setBackgroundColor(
+                    ContextCompat.getColor(this, R.color.colorSuccess))
                 Toast.makeText(this, resources.getString(R.string.cheque_authorized), Toast.LENGTH_SHORT).show()
             } else {
                 statusTextView.text = resources.getString(R.string.cheque_refused)
@@ -81,6 +86,14 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     fun scanNFC(v: View) {
         NFCscanActive = true
+    }
+
+    fun sendChequeData() {
+        // Todo:
+    }
+
+    fun sendCartData() {
+        // Todo:
     }
 
     fun backToRegister(v : View) {

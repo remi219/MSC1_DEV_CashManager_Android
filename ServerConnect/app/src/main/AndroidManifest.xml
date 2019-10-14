@@ -17,7 +17,9 @@
         <activity android:name=".ui.bill.BillActivity"></activity>
         <activity android:name=".ui.productPicker.ProductPickerActivity">
         </activity>
-        <activity android:name=".ui.payment.PaymentActivity">
+        <activity
+            android:name=".ui.payment.PaymentActivity"
+            android:label="@string/payment_activity_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
