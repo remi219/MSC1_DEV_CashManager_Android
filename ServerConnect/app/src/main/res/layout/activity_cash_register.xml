@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="reset"
     tools:context=".ui.cashRegister.CashRegisterActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/cart_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cart"
+        android:text="@string/cart"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,54 +21,59 @@
         android:id="@+id/articles_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/cart_textView" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/add_article_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="openProductPicker"
-        android:text="Add article"
+        android:text="@string/add_article_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_textview" />
+
+    <TextView
+        android:id="@+id/no_article_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/no_article_warning"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/cart_textView" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/total_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No article in cart !"
+        android:text="@string/bill_total"
+        app:layout_constraintBottom_toTopOf="@+id/add_article_btn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total: 0 €"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/articles_list" />
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/payment_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/button6"
-        tools:layout_editor_absoluteX="189dp">
+        app:layout_constraintBottom_toTopOf="@+id/btn_linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/payment_spinner_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Payment mode" />
+            android:text="@string/payment_mode_label" />
 
         <Spinner
             android:id="@+id/payment_spinner"
@@ -75,6 +83,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/btn_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -84,18 +93,19 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/reset_cart_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Reset" />
+            android:text="@string/reset" />
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/proceed_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Proceed" />
+            android:onClick="proceed"
+            android:text="@string/proceed" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

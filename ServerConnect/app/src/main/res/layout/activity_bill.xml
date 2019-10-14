@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cart" />
+            android:text="@string/cart_products" />
 
         <TextView
             android:id="@+id/nb_item"
@@ -48,13 +48,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="Total: 90 €"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/payment_linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/payment_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -70,7 +71,7 @@
             android:layout_weight="1"
             android:text="Payment mode:"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/button4"
+            app:layout_constraintBottom_toTopOf="@+id/cancel_btn"
             app:layout_constraintEnd_toStartOf="@+id/payment_mode"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -80,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:text="Cheque"
+            android:text="@string/payment_mode_cheque"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -98,21 +99,22 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:text="Cancel" />
+            android:text="@string/cancel" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/proceed_btn"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:text="Proceed" />
+            android:onClick="goToPayment"
+            android:text="@string/proceed" />
 
     </LinearLayout>
 
