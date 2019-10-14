@@ -3,22 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingHorizontal="15dp"
-    android:paddingVertical="50dp">
+    android:padding="10dp">
 
-    <!--    Todo: update-->
+    <!--Todo: update-->
 
     <TextView
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="product name" />
+        android:text="" />
 
     <TextView
         android:id="@+id/total_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="10 x 6 € = 60 €" />
+        android:text="" />
 </LinearLayout>
