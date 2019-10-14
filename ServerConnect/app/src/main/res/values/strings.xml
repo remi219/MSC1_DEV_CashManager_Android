@@ -10,4 +10,19 @@
     <string name="invalid_password">Password must be at least 4 characters long</string>
     <string name="login_failed">"Login failed"</string>
     <string name="instruction">Enter IP and password of the server you wan\'t to be connected to</string>
+
+    <!-- Payment activity-->
+    <string name="status">Status:</string>
+    <string name="pending_authorization">Pending authorization</string>
+    <string name="cheque_authorized">Cheque authorized</string>
+    <string name="cheque_refused">Cheque refused</string>
+    <string name="back_to_register_btn">Back to register</string>
+    <string name="cancel_op_btn">Cancel operation</string>
+    <string name="card_accepted">Card payment accepted</string>
+    <string name="card_refused">Card payment refused</string>
+    <string name="scan_cheque_btn">Scan cheque</string>
+    <string name="scan_card_btn">Scan card</string>
+    <string name="payment_activity_title">Payment</string>
+    <string name="bill_total">Bill total: %1$s €</string>
+
 </resources>
