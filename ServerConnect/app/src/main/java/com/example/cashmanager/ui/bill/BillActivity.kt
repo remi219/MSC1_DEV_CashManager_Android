@@ -18,4 +18,8 @@ class BillActivity : AppCompatActivity() {
         val intent = Intent(this, PaymentActivity::class.java)
         startActivity(intent)
     }
+
+    fun cancel(v: View) {
+        onBackPressed()
+    }
 }

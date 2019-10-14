@@ -98,9 +98,11 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     fun backToRegister(v : View) {
         setResult(RESULT_OK, Intent())
+        onBackPressed()
     }
 
     fun cancelOperation(v: View) {
         setResult(RESULT_CANCELED, Intent())
+        onBackPressed()
     }
 }
