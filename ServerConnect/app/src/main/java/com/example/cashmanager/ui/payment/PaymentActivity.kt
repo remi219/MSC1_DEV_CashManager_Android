@@ -1,15 +1,15 @@
 package com.example.cashmanager.ui.payment
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.TextView
 import com.example.cashmanager.R
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
@@ -19,10 +19,13 @@ import android.widget.Toast
 class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     var NFCscanActive : Boolean = false
+    lateinit var statusTextView : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
+
+        statusTextView = findViewById(R.id.payment_status_label)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -30,12 +33,13 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
         if(result != null){
-
+            // Todo: send data to the api
             if(result.contents != null){
                 // Todo: => payment success !
-                // txtValue.text = result.contents
+                statusTextView.text = resources.getString(R.string.cheque_authorized)
+                Toast.makeText(this, resources.getString(R.string.cheque_authorized), Toast.LENGTH_SHORT).show()
             } else {
-                // txtValue.text = "scan failed"
+                statusTextView.text = resources.getString(R.string.cheque_refused)
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
@@ -80,10 +84,10 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     }
 
     fun backToRegister(v : View) {
-        setResult(Activity.RESULT_OK, Intent())
+        setResult(RESULT_OK, Intent())
     }
 
     fun cancelOperation(v: View) {
-        setResult(Activity.RESULT_CANCELED, Intent())
+        setResult(RESULT_CANCELED, Intent())
     }
 }

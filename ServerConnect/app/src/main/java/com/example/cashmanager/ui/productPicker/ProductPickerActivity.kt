@@ -1,8 +1,7 @@
 package com.example.cashmanager.ui.productPicker
 
-import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.example.cashmanager.R
@@ -28,10 +27,10 @@ class ProductPickerActivity : AppCompatActivity() {
         val intent = Intent().apply {
             //putExtra("cart", productList);
         }
-        setResult(Activity.RESULT_OK, intent)
+        setResult(RESULT_OK, intent)
     }
 
     fun cancel(v : View) {
-        setResult(Activity.RESULT_OK, Intent())
+        setResult(RESULT_OK, Intent())
     }
 }
