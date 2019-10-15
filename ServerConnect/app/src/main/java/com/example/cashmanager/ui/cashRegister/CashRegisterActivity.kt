@@ -5,29 +5,31 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
 import com.example.cashmanager.data.model.Cart
+import com.example.cashmanager.data.model.PaymentMode
 import com.example.cashmanager.ui.bill.BillActivity
 import com.example.cashmanager.ui.productPicker.ProductPickerActivity
 import java.io.Serializable
 import java.text.NumberFormat
 
-class CashRegisterActivity : AppCompatActivity() {
+class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private val PICK_PRODUCTS_REQUEST = 1
     private val format = NumberFormat.getCurrencyInstance()
 
     var cart: Cart = Cart()
+    private var paymentMode : PaymentMode = PaymentMode.CHEQUE
+    private val paymentModeTitle = listOf("cheque", "card")
 
     lateinit var noArticleTextview : TextView
     lateinit var cartRecyclerView : RecyclerView
     lateinit var totalTextView: TextView
     lateinit var proceedButton : TextView
-
+    lateinit var paymentSpinner: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,13 @@ class CashRegisterActivity : AppCompatActivity() {
         cartRecyclerView = findViewById(R.id.articles_list)
         totalTextView = findViewById(R.id.total_textview)
         proceedButton = findViewById(R.id.proceed_btn)
+        paymentSpinner = findViewById(R.id.payment_spinner)
+
+        paymentSpinner.onItemSelectedListener = this
+        val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, paymentModeTitle)
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        // Set Adapter to Spinner
+        paymentSpinner.adapter = aa
 
         totalTextView.text = resources.getString(R.string.bill_total, format.format(0))
         proceedButton.isEnabled = false
@@ -102,6 +111,17 @@ class CashRegisterActivity : AppCompatActivity() {
         // Todo: disable if no product
         val intent = Intent(this, BillActivity::class.java)
         intent.putExtra("cart", cart as Serializable)
+        intent.putExtra("paymentMode", paymentMode)
         startActivity(intent)
     }
+
+    // Spinner
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        paymentMode = if (position == 0) PaymentMode.CHEQUE else PaymentMode.NFC
+    }
+
 }

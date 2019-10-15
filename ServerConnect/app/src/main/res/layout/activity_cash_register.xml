@@ -82,14 +82,14 @@
             android:id="@+id/payment_spinner_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="5"
             android:text="@string/payment_mode_label" />
 
         <Spinner
             android:id="@+id/payment_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
