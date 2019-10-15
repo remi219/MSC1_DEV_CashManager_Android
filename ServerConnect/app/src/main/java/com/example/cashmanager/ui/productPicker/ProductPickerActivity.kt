@@ -14,10 +14,12 @@ import java.io.Serializable
 class ProductPickerActivity : AppCompatActivity() {
 
     var isBusy : Boolean = true
+    var fullCart: Cart = Cart()
 
-    lateinit var productList : RecyclerView
+    lateinit var productRecyclerView : RecyclerView
 
     lateinit var availableProducts : MutableList<Product>
+    var productList : MutableList<Pair<Product, Int>> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +27,16 @@ class ProductPickerActivity : AppCompatActivity() {
 
         val activity = this
 
-        productList = findViewById(R.id.productPicker_recyclerView)
+        productRecyclerView = findViewById(R.id.productPicker_recyclerView)
 
         LoadProductList()
 
-        productList.apply {
+        val cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
+        fullCart.prefillQuantity(cart)
+
+        productRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
-            adapter = ProductPickerAdapter(availableProducts)
+            adapter = ProductPickerAdapter(fullCart)
         }
     }
 
@@ -46,12 +51,14 @@ class ProductPickerActivity : AppCompatActivity() {
             Product(3, "Ice Tea bottle", 1.25f),
             Product(4, "Coffee bottle", 1.5f),
             Product(5, "Orange juice bottle", 0.75f),
-            Product(5, "Orange juice bottle", 0.75f),
-            Product(5, "Orange juice bottle", 0.75f),
-            Product(5, "Orange juice bottle", 0.75f),
-            Product(5, "Orange juice bottle", 0.75f),
-            Product(5, "Toto", 99.995644f)
+            Product(6, "Apple juice bottle", 0.69f),
+            Product(7, "Pear juice bottle", 1.12f),
+            Product(8, "Strawberry juice bottle", 0.99f),
+            Product(9, "Banana juice bottle", 0.95f),
+            Product(10, "Toto", 99.995644f)
         )
+        for (product in availableProducts)
+            fullCart.products.add(Pair(product, 0))
         isBusy = false
     }
 
@@ -60,11 +67,7 @@ class ProductPickerActivity : AppCompatActivity() {
      */
     fun addProductsToCart(v : View) {
         val cart = Cart()
-        cart.products = mutableListOf(
-            Pair(Product(1, "Toto", 2f), 1),
-            Pair(Product(2, "Tata", 5f), 3),
-            Pair(Product(3, "Titi", 6f), 5)
-        )
+        cart.products = fullCart.getSelectedProducts()
 
         val intent = Intent().apply {
             putExtra("cart", cart as Serializable)

@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="10dp">
-
-<!--    Todo: update-->
+    android:padding="10dp"
+    android:focusable="false"
+    android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/product_name"
@@ -26,5 +26,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:ems="10"
-        android:inputType="numberSigned" />
+        android:inputType="numberSigned"
+        android:importantForAutofill="no" />
 </LinearLayout>

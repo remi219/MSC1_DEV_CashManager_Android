@@ -60,7 +60,7 @@
         android:id="@+id/total_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/bill_total"
         app:layout_constraintBottom_toTopOf="@+id/add_article_btn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +75,8 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btn_linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/payment_spinner_label"

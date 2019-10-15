@@ -76,7 +76,9 @@ class CashRegisterActivity : AppCompatActivity() {
      * Open the Product picker activity to add item to cart
      */
     fun openProductPicker(v: View) {
-        val intent = Intent(this, ProductPickerActivity::class.java)
+        val intent = Intent(this, ProductPickerActivity::class.java).apply {
+            putExtra("cart", cart as Serializable)
+        }
         startActivityForResult(intent, PICK_PRODUCTS_REQUEST)
     }
 

@@ -19,8 +19,8 @@ import androidx.core.content.ContextCompat
 
 class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
-    var NFCscanActive : Boolean = false
-    lateinit var statusTextView : TextView
+    private var NFCscanActive : Boolean = false
+    private lateinit var statusTextView : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
