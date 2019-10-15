@@ -32,6 +32,7 @@
     <string name="no_article_warning">No article in cart</string>
     <string name="add_article_btn">Add articles</string>
     <string name="total">Total: %s</string>
+    <string name="cart_reset_toast">Cart cleared</string>
 
     <!-- Product picker activity -->
     <string name="product_picker_activity_title">Available products</string>

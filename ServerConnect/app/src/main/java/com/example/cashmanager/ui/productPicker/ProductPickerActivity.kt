@@ -24,7 +24,6 @@ class ProductPickerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_product_picker)
 
         val activity = this
-        //
 
         productList = findViewById(R.id.productPicker_recyclerView)
 

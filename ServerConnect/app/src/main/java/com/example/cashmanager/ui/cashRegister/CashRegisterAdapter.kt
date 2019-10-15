@@ -20,7 +20,7 @@ class CashRegisterAdapter(private val products: MutableList<Pair<Product, Int>>,
     override fun getItemCount() = products.size
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        holder.bind(products[position].first, products[position].second)
     }
 
     class ProductViewHolder(inflater: LayoutInflater, parent: ViewGroup, private val context: Context) : RecyclerView.ViewHolder(inflater.inflate(

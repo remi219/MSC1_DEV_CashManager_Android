@@ -18,4 +18,8 @@ class Cart : Serializable {
 
     val size: Int
         get() = products.size
+
+    fun reset() {
+        products.clear()
+    }
 }

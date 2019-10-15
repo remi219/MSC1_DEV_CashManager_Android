@@ -19,4 +19,12 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textAlignment="viewEnd"/>
+
+    <EditText
+        android:id="@+id/quantity"
+        android:layout_width="25dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:ems="10"
+        android:inputType="numberSigned" />
 </LinearLayout>

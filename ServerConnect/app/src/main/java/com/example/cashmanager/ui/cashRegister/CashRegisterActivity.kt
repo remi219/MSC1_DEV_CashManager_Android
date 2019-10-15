@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.ui.bill.BillActivity
-import com.example.cashmanager.ui.bill.BillAdapter
 import com.example.cashmanager.ui.productPicker.ProductPickerActivity
 import java.io.Serializable
 import java.text.NumberFormat
@@ -26,6 +26,7 @@ class CashRegisterActivity : AppCompatActivity() {
     lateinit var noArticleTextview : TextView
     lateinit var cartRecyclerView : RecyclerView
     lateinit var totalTextView: TextView
+    lateinit var proceedButton : TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,10 @@ class CashRegisterActivity : AppCompatActivity() {
         noArticleTextview = findViewById(R.id.no_article_textview)
         cartRecyclerView = findViewById(R.id.articles_list)
         totalTextView = findViewById(R.id.total_textview)
+        proceedButton = findViewById(R.id.proceed_btn)
+
         totalTextView.text = resources.getString(R.string.bill_total, format.format(0))
+        proceedButton.isEnabled = false
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -49,6 +53,7 @@ class CashRegisterActivity : AppCompatActivity() {
                 this.cart = cartFromPicker ?: Cart()
                 totalTextView.text = resources.getString(R.string.bill_total, format.format(cart.billTotal))
 
+                proceedButton.isEnabled = cart.size > 0
                 if (cart.size == 0) {
                     noArticleTextview.visibility = View.VISIBLE
                     cartRecyclerView.visibility = View.GONE
@@ -57,10 +62,12 @@ class CashRegisterActivity : AppCompatActivity() {
                     cartRecyclerView.visibility = View.VISIBLE
                     cartRecyclerView.apply {
                         layoutManager = LinearLayoutManager(activity)
-                        adapter = BillAdapter(cart.products, activity)
+                        adapter = CashRegisterAdapter(cart.products, activity)
                     }
                 }
             }
+        } else {
+            cart = Cart()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -80,6 +87,9 @@ class CashRegisterActivity : AppCompatActivity() {
         // Todo: clear the list of products in the cart
         noArticleTextview.visibility = View.VISIBLE
         cartRecyclerView.visibility = View.GONE
+        cart.reset()
+        proceedButton.isEnabled = false
+        Toast.makeText(this, R.string.cart_reset_toast, Toast.LENGTH_SHORT).show()
     }
 
     /**
