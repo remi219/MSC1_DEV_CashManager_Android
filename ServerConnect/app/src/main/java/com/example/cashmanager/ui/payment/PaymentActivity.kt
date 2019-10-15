@@ -78,6 +78,9 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
             println("No message")
     }
 
+    /***
+     * Start scanning activity
+     */
     fun scanQRcode(v: View) {
         run {
             IntentIntegrator(this@PaymentActivity).initiateScan()
@@ -88,21 +91,27 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         NFCscanActive = true
     }
 
-    fun sendChequeData() {
+    fun sendChequePayment() {
+        // Todo:
+    }
+    
+    fun sendCardPayment() {
         // Todo:
     }
 
-    fun sendCartData() {
-        // Todo:
-    }
-
+    /***
+     * Return to Cash register activity when the payment is successful
+     */
     fun backToRegister(v : View) {
         setResult(RESULT_OK, Intent())
         onBackPressed()
     }
 
+    /***
+     * Cancel the current operation
+     */
     fun cancelOperation(v: View) {
-        setResult(RESULT_CANCELED, Intent())
-        onBackPressed()
+        // todo: define what it's suppose to do ?
+        //setResult(RESULT_CANCELED, Intent())
     }
 }

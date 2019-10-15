@@ -7,7 +7,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
+import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.Product
+import java.io.Serializable
 
 class ProductPickerActivity : AppCompatActivity() {
 
@@ -58,15 +60,21 @@ class ProductPickerActivity : AppCompatActivity() {
      * Set the selected products to the cart
      */
     fun addProductsToCart(v : View) {
+        val cart = Cart()
+        cart.products = mutableListOf(
+            Pair(Product(1, "Toto", 2f), 1),
+            Pair(Product(2, "Tata", 5f), 3),
+            Pair(Product(3, "Titi", 6f), 5)
+        )
+
         val intent = Intent().apply {
-            //putExtra("cart", productList);
+            putExtra("cart", cart as Serializable)
         }
         setResult(RESULT_OK, intent)
-        onBackPressed()
+        finish()
     }
 
     fun cancel(v : View) {
-        setResult(RESULT_OK, Intent())
         onBackPressed()
     }
 }

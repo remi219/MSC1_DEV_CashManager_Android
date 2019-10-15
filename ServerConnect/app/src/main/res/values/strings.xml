@@ -15,11 +15,11 @@
     <string name="cancel">Cancel</string>
     <string name="proceed">Proceed</string>
     <string name="reset">Reset</string>
-    <string name="bill_total">Bill total: %1$s €</string>
+    <string name="bill_total">Bill total: %1$s</string>
     <string name="payment_mode_label">Payment mode:</string>
     <string name="payment_mode_cheque">QRcode cheque</string>
     <string name="payment_mode_nfc">NFC</string>
-    <string name="full_price">%1$s x %2$d = %3$s €</string>
+    <string name="full_price">%1$s x %2$d = %3$s</string>
 
     <!-- Connection status -->
     <string name="status_connected">Connected</string>
