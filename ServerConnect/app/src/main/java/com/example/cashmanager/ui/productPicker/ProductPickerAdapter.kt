@@ -4,6 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -28,12 +29,16 @@ class ProductPickerAdapter(private val fullCart : Cart) : RecyclerView.Adapter<P
 
         private var productView: TextView? = null
         private var priceView: TextView? = null
-        private var quantityView: EditText? = null
+        private var quantityView: TextView? = null
+        private var addBtn: Button? = null
+        private var subBtn: Button? = null
 
         init {
             productView = itemView.findViewById(R.id.product_name)
             priceView = itemView.findViewById(R.id.individual_price)
             quantityView = itemView.findViewById(R.id.quantity)
+            addBtn = itemView.findViewById(R.id.addBtn)
+            subBtn = itemView.findViewById(R.id.subBtn)
         }
 
         fun bind(fullCart: Cart, position: Int) {
@@ -41,19 +46,17 @@ class ProductPickerAdapter(private val fullCart : Cart) : RecyclerView.Adapter<P
 
             productView?.text = fullCart.products[position].first.description
             priceView?.text = format.format(fullCart.products[position].first.price)
-            quantityView?.setText(fullCart.products[position].second.toString())
+            quantityView?.text = fullCart.products[position].second.toString()
 
-            quantityView?.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p0: Editable?) {}
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    try {
-                        fullCart.setQuantity(position, p0.toString().toInt())
-                    } catch(ex: Exception) {
-                        fullCart.setQuantity(position, 0)
-                    }
-                }
-            })
+            addBtn?.setOnClickListener {
+                fullCart.addProduct(position)
+                quantityView?.text = fullCart.products[position].second.toString()
+            }
+
+            subBtn?.setOnClickListener {
+                fullCart.substractProduct(position)
+                quantityView?.text = fullCart.products[position].second.toString()
+            }
         }
     }
 }

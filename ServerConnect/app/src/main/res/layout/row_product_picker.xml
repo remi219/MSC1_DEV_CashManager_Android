@@ -11,21 +11,40 @@
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textAlignment="viewStart" />
 
     <TextView
         android:id="@+id/individual_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textAlignment="viewEnd"/>
+        android:textAlignment="center" />
 
-    <EditText
+    <TextView
         android:id="@+id/quantity"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:ems="10"
-        android:inputType="numberSigned"
-        android:importantForAutofill="no" />
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="44dip"
+        android:text="+"
+        android:textSize="20sp"
+        android:theme="@style/GreenButton"/>
+
+    <Button
+        android:id="@+id/subBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="44dip"
+        android:text="-"
+        android:textSize="20sp"
+        android:theme="@style/RedButton"/>
+
 </LinearLayout>

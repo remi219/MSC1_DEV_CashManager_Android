@@ -35,6 +35,16 @@ class Cart : Serializable {
         products[position] = products[position].copy(second = qty)
     }
 
+    fun addProduct(position: Int) {
+        val qty: Int = products[position].second
+        products[position] = products[position].copy(second = if (qty > 99) 99 else qty + 1)
+    }
+
+    fun substractProduct(position: Int) {
+        val qty: Int = products[position].second
+        products[position] = products[position].copy(second = if (qty == 0) 0 else qty - 1)
+    }
+
     /**
      * Return a list of products excluding those with a zero quantity
      */
