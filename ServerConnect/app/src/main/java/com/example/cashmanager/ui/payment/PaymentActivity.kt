@@ -24,6 +24,7 @@ import org.koin.android.ext.android.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
@@ -34,7 +35,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     private lateinit var paymentMode : PaymentMode
     private val activity = this
-    private val paymentService : PaymentService by inject()
+    private val paymentAPI : PaymentService by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,22 +120,35 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
      * @param content: Cheque content
      */
     private fun sendChequePayment(content : Any) {
-        val call = paymentService.postChequePayment()
+        try {
+            val call = paymentAPI.postChequePayment()
 
-        call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                statusTextView.text = resources.getString(R.string.cheque_authorized)
-                statusTextView.setBackgroundColor(
-                    ContextCompat.getColor(activity, R.color.colorSuccess))
-            }
+            call.enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    statusTextView.text = resources.getString(R.string.cheque_authorized)
+                    statusTextView.setBackgroundColor(
+                        ContextCompat.getColor(activity, R.color.colorSuccess)
+                    )
+                }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                statusTextView.text = resources.getString(R.string.cheque_refused)
-                statusTextView.setBackgroundColor(
-                    ContextCompat.getColor(activity, R.color.colorFailure))
-                Toast.makeText(activity, resources.getString(R.string.cheque_refused), Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    statusTextView.text = resources.getString(R.string.cheque_refused)
+                    statusTextView.setBackgroundColor(
+                        ContextCompat.getColor(activity, R.color.colorFailure)
+                    )
+                    Toast.makeText(
+                        activity,
+                        resources.getString(R.string.cheque_refused),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        } catch (ex : Exception) {
+            println(ex.message)
+        }
     }
 
     /**
@@ -142,7 +156,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
      * @param content: Cheque content
      */
     private fun sendCardPayment(content : Any) {
-        val call = paymentService.postNFCPayment()
+        val call = paymentAPI.postNFCPayment()
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

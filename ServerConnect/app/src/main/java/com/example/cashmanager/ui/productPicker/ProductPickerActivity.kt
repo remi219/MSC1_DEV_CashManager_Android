@@ -70,7 +70,7 @@ class ProductPickerActivity : AppCompatActivity() {
             Product(5, "Orange juice bottle", 0.75f),
             Product(6, "Apple juice bottle", 0.69f),
             Product(7, "Pear juice bottle", 1.12f),
-            Product(8, "Strawberry juice bottle", 0.99f),
+            Product(8, "Item with a very very very very long name on several line", 0.99f),
             Product(9, "Banana juice bottle", 0.95f),
             Product(10, "Toto", 99.995644f)
         )
