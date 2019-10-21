@@ -5,20 +5,30 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
+import com.example.cashmanager.data.dto.OrderDTO
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
+import com.example.cashmanager.service.OrderService
 import com.example.cashmanager.ui.payment.PaymentActivity
 import com.example.cashmanager.ui.productPicker.ProductPickerAdapter
 import kotlinx.android.synthetic.main.activity_bill.*
+import org.koin.android.ext.android.inject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.lang.Exception
 import java.text.NumberFormat
+import kotlin.reflect.typeOf
 
 class BillActivity : AppCompatActivity() {
 
     lateinit var cart : Cart
     lateinit var paymentMode : PaymentMode
+    private val orderAPI : OrderService by inject()
 
     lateinit var cartRecyclerView : RecyclerView
     lateinit var totalTextView : TextView
@@ -52,7 +62,17 @@ class BillActivity : AppCompatActivity() {
     fun goToPayment(v: View) {
         val intent = Intent(this, PaymentActivity::class.java)
         intent.putExtra("paymentMode", paymentMode)
-        startActivity(intent)
+
+        orderAPI.createUserOrder(1, OrderDTO()).enqueue(object : Callback<OrderDTO> {
+            override fun onResponse(call: Call<OrderDTO>, response: Response<OrderDTO>) {
+                startActivity(intent)
+            }
+
+            override fun onFailure(call: Call<OrderDTO>, t: Throwable) {
+                startActivity(intent)
+                //Toast.makeText(this, "Could not make order", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     fun cancel(v: View) {
