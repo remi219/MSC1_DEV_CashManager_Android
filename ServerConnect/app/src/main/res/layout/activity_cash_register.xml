@@ -17,32 +17,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <FrameLayout
-        android:id="@+id/frame_layout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/articles_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/total_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cart_textView"/>
+
+    <TextView
+        android:id="@+id/no_article_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="@string/no_article_warning"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/total_textview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cart_textView">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/articles_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/no_article_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:text="@string/no_article_warning"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:visibility="visible" />
-
-    </FrameLayout>
+        app:layout_constraintTop_toBottomOf="@+id/cart_textView"/>
 
     <Button
         android:id="@+id/add_article_btn"
@@ -54,13 +51,15 @@
         app:layout_constraintBottom_toTopOf="@+id/payment_linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:theme="@style/BlueButton"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
     <TextView
         android:id="@+id/total_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/bill_total"
         app:layout_constraintBottom_toTopOf="@+id/add_article_btn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,20 +74,21 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btn_linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/payment_spinner_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="5"
             android:text="@string/payment_mode_label" />
 
         <Spinner
             android:id="@+id/payment_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -107,7 +107,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="reset"
-            android:text="@string/reset" />
+            android:text="@string/reset"
+            android:theme="@style/RedButton"
+            style="@style/Widget.AppCompat.Button.Colored"/>
 
         <Button
             android:id="@+id/proceed_btn"
@@ -115,7 +117,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="proceed"
-            android:text="@string/proceed" />
+            android:text="@string/proceed"
+            android:theme="@style/GreenButton"
+            style="@style/Widget.AppCompat.Button.Colored"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

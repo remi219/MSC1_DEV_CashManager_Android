@@ -29,21 +29,25 @@
 
         <Button
             android:id="@+id/cancelButton"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
             android:onClick="cancel"
-            android:text="@android:string/cancel" />
+            android:text="@android:string/cancel"
+            android:theme="@style/RedButton"/>
 
         <Button
             android:id="@+id/addToCartButton"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
             android:onClick="addProductsToCart"
-            android:text="@string/add_to_cart_btn" />
+            android:text="@string/add_to_cart_btn"
+            android:theme="@style/BlueButton"/>
 
     </LinearLayout>
 

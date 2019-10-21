@@ -3,6 +3,8 @@ package com.example.cashmanager.ui.cashRegister
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
@@ -24,14 +26,16 @@ class CashRegisterAdapter(private val products: MutableList<Pair<Product, Int>>,
     }
 
     class ProductViewHolder(inflater: LayoutInflater, parent: ViewGroup, private val context: Context) : RecyclerView.ViewHolder(inflater.inflate(
-        R.layout.row_bill_view, parent, false)) {
+        R.layout.row_cash_register_view, parent, false)) {
 
         private var productView: TextView? = null
         private var priceView: TextView? = null
+        private var removeBtn: ImageButton? = null
 
         init {
             productView = itemView.findViewById(R.id.product_name)
             priceView = itemView.findViewById(R.id.total_price)
+            removeBtn = itemView.findViewById(R.id.remove_btn)
         }
 
         fun bind(product: Product, quantity: Int) {
@@ -43,6 +47,9 @@ class CashRegisterAdapter(private val products: MutableList<Pair<Product, Int>>,
                 format.format(product.price),
                 quantity,
                 format.format(product.price * quantity))
+            removeBtn?.setOnClickListener {
+                // Todo
+            }
         }
     }
 }

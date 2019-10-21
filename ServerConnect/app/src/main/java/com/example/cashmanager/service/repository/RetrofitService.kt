@@ -5,11 +5,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitService {
 
+    private val baseURl = "http://localhost:4242"
 //    lateinit var service
 
     init {
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://localhost:4242")
+            .baseUrl(baseURl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
