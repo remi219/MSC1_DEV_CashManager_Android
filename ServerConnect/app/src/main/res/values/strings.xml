@@ -53,6 +53,7 @@
     <string name="pending_authorization">Pending authorization</string>
     <string name="cheque_authorized">Cheque authorized</string>
     <string name="cheque_refused">Cheque refused</string>
+    <string name="scan_failed">Scanning failed</string>
     <string name="back_to_register_btn">Back to register</string>
     <string name="cancel_op_btn">Cancel operation</string>
     <string name="card_accepted">Card payment accepted</string>

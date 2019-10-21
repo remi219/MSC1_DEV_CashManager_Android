@@ -1,4 +1,4 @@
-package com.example.cashmanager.service.repository
+package com.example.cashmanager.service
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -6,7 +6,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitService {
 
     private val baseURl = "http://localhost:4242"
-//    lateinit var service
 
     init {
         val retrofit = Retrofit.Builder()

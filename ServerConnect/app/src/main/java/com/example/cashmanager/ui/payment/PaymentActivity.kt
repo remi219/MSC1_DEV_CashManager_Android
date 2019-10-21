@@ -5,7 +5,6 @@ import android.content.Intent
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -19,6 +18,12 @@ import java.nio.charset.Charset
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.cashmanager.data.model.PaymentMode
+import com.example.cashmanager.service.PaymentService
+import okhttp3.ResponseBody
+import org.koin.android.ext.android.inject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
@@ -28,6 +33,8 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     private lateinit var scanNFCBtn : Button
 
     private lateinit var paymentMode : PaymentMode
+    private val activity = this
+    private val paymentService : PaymentService by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +64,9 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
             Toast.makeText(this, "Todo: waiting answer from the server", Toast.LENGTH_SHORT).show()
 
             if(result.contents != null){
-                // Todo: => payment success !
-                statusTextView.text = resources.getString(R.string.cheque_authorized)
-                statusTextView.setBackgroundColor(
-                    ContextCompat.getColor(this, R.color.colorSuccess))
-                Toast.makeText(this, resources.getString(R.string.cheque_authorized), Toast.LENGTH_SHORT).show()
+                sendChequePayment(result.contents)
             } else {
-                statusTextView.text = resources.getString(R.string.cheque_refused)
+                statusTextView.text = resources.getString(R.string.scan_failed)
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
@@ -95,6 +98,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
             println(message)
         else
             println("No message")
+        sendCardPayment(message)
     }
 
     /***
@@ -110,12 +114,46 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         NFCscanActive = true
     }
 
-    fun sendChequePayment() {
-        // Todo:
+    /**
+     * Send the scanned cheque data to the payment API
+     * @param content: Cheque content
+     */
+    private fun sendChequePayment(content : Any) {
+        val call = paymentService.postChequePayment()
+
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                statusTextView.text = resources.getString(R.string.cheque_authorized)
+                statusTextView.setBackgroundColor(
+                    ContextCompat.getColor(activity, R.color.colorSuccess))
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                statusTextView.text = resources.getString(R.string.cheque_refused)
+                statusTextView.setBackgroundColor(
+                    ContextCompat.getColor(activity, R.color.colorFailure))
+                Toast.makeText(activity, resources.getString(R.string.cheque_refused), Toast.LENGTH_SHORT).show()
+            }
+        })
     }
-    
-    fun sendCardPayment() {
-        // Todo:
+
+    /**
+     * Send the scanned NFC card data to the payment API
+     * @param content: Cheque content
+     */
+    private fun sendCardPayment(content : Any) {
+        val call = paymentService.postNFCPayment()
+
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                statusTextView.text = resources.getString(R.string.card_accepted)
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                statusTextView.text = resources.getString(R.string.card_refused)
+                Toast.makeText(activity, resources.getString(R.string.cheque_refused), Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     /***

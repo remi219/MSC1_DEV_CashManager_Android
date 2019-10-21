@@ -9,12 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.Product
+import com.example.cashmanager.service.ProductService
+import org.koin.android.ext.android.inject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.Serializable
 
 class ProductPickerActivity : AppCompatActivity() {
 
     var isBusy : Boolean = true
     var fullCart: Cart = Cart()
+    val productAPI : ProductService by inject()
 
     lateinit var productRecyclerView : RecyclerView
 
@@ -44,7 +50,18 @@ class ProductPickerActivity : AppCompatActivity() {
      * Load the list of available products from the API
      */
     fun LoadProductList() {
-        // Todo: load from API
+        val call = productAPI.availableProducts()
+
+        call.enqueue(object : Callback<List<Product>> {
+            override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
+                val product = response.body()
+            }
+
+            override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+                println(t.message)
+            }
+        })
+
         availableProducts = mutableListOf(
             Product(1, "Water bottle", 0.5f),
             Product(2, "Soda bottle", 1f),
