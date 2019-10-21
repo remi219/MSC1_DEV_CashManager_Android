@@ -52,7 +52,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        android:theme="@style/BlueButton"/>
+        android:theme="@style/BlueButton"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
     <TextView
         android:id="@+id/total_textview"
@@ -107,7 +108,8 @@
             android:layout_weight="1"
             android:onClick="reset"
             android:text="@string/reset"
-            android:theme="@style/RedButton"/>
+            android:theme="@style/RedButton"
+            style="@style/Widget.AppCompat.Button.Colored"/>
 
         <Button
             android:id="@+id/proceed_btn"
@@ -116,7 +118,8 @@
             android:layout_weight="1"
             android:onClick="proceed"
             android:text="@string/proceed"
-            android:theme="@style/GreenButton"/>
+            android:theme="@style/GreenButton"
+            style="@style/Widget.AppCompat.Button.Colored"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

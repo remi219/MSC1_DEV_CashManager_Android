@@ -23,7 +23,7 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
     var cart: Cart = Cart()
     private var paymentMode : PaymentMode = PaymentMode.CHEQUE
-    private val paymentModeTitle = listOf("cheque", "card")
+    private lateinit var paymentModeTitle : List<String>
 
     lateinit var noArticleTextview : TextView
     lateinit var cartRecyclerView : RecyclerView
@@ -40,6 +40,8 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         totalTextView = findViewById(R.id.total_textview)
         proceedButton = findViewById(R.id.proceed_btn)
         paymentSpinner = findViewById(R.id.payment_spinner)
+
+        paymentModeTitle = listOf(resources.getString(R.string.payment_mode_cheque), resources.getString(R.string.payment_mode_nfc))
 
         paymentSpinner.onItemSelectedListener = this
         val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, paymentModeTitle)

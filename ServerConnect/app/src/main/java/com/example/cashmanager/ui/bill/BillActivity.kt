@@ -51,6 +51,7 @@ class BillActivity : AppCompatActivity() {
 
     fun goToPayment(v: View) {
         val intent = Intent(this, PaymentActivity::class.java)
+        intent.putExtra("paymentMode", paymentMode)
         startActivity(intent)
     }
 

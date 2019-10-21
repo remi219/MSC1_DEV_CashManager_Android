@@ -10,19 +10,22 @@
 
     <style name="GreenButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">#8BC34A</item>
-        <item name="colorButtonNormal">#4CAF50</item>
+        <item name="colorButtonNormal">#484CAF50</item>
+        <item name="colorAccent">#4CAF50</item>
         <item name="android:textColor">#ffffff</item>
     </style>
 
     <style name="RedButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">#F48F36</item>
-        <item name="colorButtonNormal">#F44336</item>
+        <item name="colorButtonNormal">#5BF44336</item>
+        <item name="colorAccent">#F44336</item>
         <item name="android:textColor">#ffffff</item>
     </style>
 
     <style name="BlueButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">#00BCD4</item>
-        <item name="colorButtonNormal">#03A9F4</item>
+        <item name="colorButtonNormal">#5203A9F4</item>
+        <item name="colorAccent">#03A9F4</item>
         <item name="android:textColor">#ffffff</item>
     </style>
 
