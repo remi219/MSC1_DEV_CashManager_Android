@@ -89,7 +89,7 @@
         app:layout_constraintTop_toBottomOf="@+id/status_title" />
 
     <Button
-        android:id="@+id/cancel"
+        android:id="@+id/cancel_op_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="cancelOperation"
@@ -100,14 +100,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/back_register"
+        android:id="@+id/back_register_btn"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="backToRegister"
+        android:enabled="false"
         android:text="@string/back_to_register_btn"
         android:theme="@style/GreenButton"
-        app:layout_constraintBottom_toTopOf="@+id/cancel"
+        app:layout_constraintBottom_toTopOf="@+id/cancel_op_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

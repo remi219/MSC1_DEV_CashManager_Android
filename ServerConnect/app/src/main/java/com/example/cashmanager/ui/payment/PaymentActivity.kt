@@ -40,6 +40,8 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
     private lateinit var statusTextView : TextView
     private lateinit var scanChequeBtn : Button
     private lateinit var scanNFCBtn : Button
+    private lateinit var backToRegisterBtn : Button
+    private lateinit var cancelOpBtn : Button
 
     private lateinit var cart : Cart
     private lateinit var paymentMode : PaymentMode
@@ -54,6 +56,8 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
         statusTextView = findViewById(R.id.payment_status_label)
         scanChequeBtn = findViewById(R.id.scan_cheque_btn)
         scanNFCBtn = findViewById(R.id.scan_nfc_btn)
+        backToRegisterBtn = findViewById(R.id.back_register_btn)
+        cancelOpBtn = findViewById(R.id.cancel_op_btn)
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
 
@@ -147,6 +151,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
                     statusTextView.setBackgroundColor(
                         ContextCompat.getColor(activity, R.color.colorSuccess)
                     )
+                    backToRegisterBtn.isEnabled = true
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -180,6 +185,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 statusTextView.text = resources.getString(R.string.card_accepted)
+                backToRegisterBtn.isEnabled = true
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -195,6 +201,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
     fun backToRegister(v : View) {
         setResult(RESULT_OK, Intent())
         onBackPressed()
+        onBackPressed()
     }
 
     /***
@@ -203,6 +210,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
     fun cancelOperation(v: View) {
         // todo: define what it's suppose to do ?
         //setResult(RESULT_CANCELED, Intent())
+        onBackPressed()
     }
 
     override fun onFragmentInteraction(uri: Uri) {
