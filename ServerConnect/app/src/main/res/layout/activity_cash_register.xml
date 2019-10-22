@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="reset"
     tools:context=".ui.cashRegister.CashRegisterActivity">
 
     <TextView
@@ -41,6 +40,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cart_textView"/>
 
+    <TextView
+        android:id="@+id/total_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/bill_total"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/add_article_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/add_article_btn"
         android:layout_width="wrap_content"
@@ -50,21 +62,9 @@
         android:text="@string/add_article_btn"
         app:layout_constraintBottom_toTopOf="@+id/payment_linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         android:theme="@style/BlueButton"
         style="@style/Widget.AppCompat.Button.Colored"/>
-
-    <TextView
-        android:id="@+id/total_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/bill_total"
-        app:layout_constraintBottom_toTopOf="@+id/add_article_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/payment_linearLayout"

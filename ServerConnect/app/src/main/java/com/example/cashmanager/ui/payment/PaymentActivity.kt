@@ -17,6 +17,7 @@ import com.google.zxing.integration.android.IntentResult
 import java.nio.charset.Charset
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
 import com.example.cashmanager.service.PaymentService
 import okhttp3.ResponseBody
@@ -25,14 +26,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
+import java.text.NumberFormat
 
 class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     private var NFCscanActive : Boolean = false
+    private lateinit var billTextView: TextView
     private lateinit var statusTextView : TextView
     private lateinit var scanChequeBtn : Button
     private lateinit var scanNFCBtn : Button
 
+    private lateinit var cart : Cart
     private lateinit var paymentMode : PaymentMode
     private val activity = this
     private val paymentAPI : PaymentService by inject()
@@ -41,9 +45,15 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
 
+        billTextView = findViewById(R.id.bill_total)
         statusTextView = findViewById(R.id.payment_status_label)
         scanChequeBtn = findViewById(R.id.scan_cheque_btn)
         scanNFCBtn = findViewById(R.id.scan_nfc_btn)
+
+        cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
+
+        val format = NumberFormat.getCurrencyInstance()
+        billTextView.text = resources.getString(R.string.bill_total, format.format(cart.billTotal))
 
         paymentMode = intent.getSerializableExtra("paymentMode") as PaymentMode
         if (paymentMode == PaymentMode.CHEQUE) {

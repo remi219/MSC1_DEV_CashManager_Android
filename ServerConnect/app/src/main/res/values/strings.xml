@@ -18,14 +18,14 @@
     <string name="bill_total">Bill total: %1$s</string>
     <string name="payment_mode_label">Payment mode:</string>
     <string name="payment_mode_cheque">QRcode cheque</string>
-    <string name="payment_mode_nfc">NFC</string>
+    <string name="payment_mode_nfc">NFC card</string>
     <string name="full_price">%1$s x %2$d = %3$s</string>
 
     <!-- Connection status -->
     <string name="status_connected">Connected</string>
     <string name="status_attempting_connection">Attempting connection…</string>
     <string name="status_disconnected">Connection failed</string>
-    
+
     <!-- Cash register activity -->
     <string name="cash_register_activity_title">Cash register</string>
     <string name="cart">Cart</string>
@@ -40,7 +40,7 @@
 
     <!-- Bill total activity-->
     <string name="bill_activity_title">Total Bill</string>
-        <string name="cart_products">Products in your cart: </string>
+    <string name="cart_products">Products in your cart: </string>
     <plurals name="items">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
@@ -60,5 +60,8 @@
     <string name="card_refused">Card payment refused</string>
     <string name="scan_cheque_btn">Scan cheque</string>
     <string name="scan_card_btn">Scan card</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

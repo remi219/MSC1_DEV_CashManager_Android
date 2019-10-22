@@ -2,6 +2,7 @@ package com.example.cashmanager.ui.cashRegister
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
@@ -25,7 +26,13 @@ class CashRegisterAdapter(private val products: MutableList<Pair<Product, Int>>,
         holder.bind(products[position].first, products[position].second)
     }
 
-    class ProductViewHolder(inflater: LayoutInflater, parent: ViewGroup, private val context: Context) : RecyclerView.ViewHolder(inflater.inflate(
+    fun removeElement(position: Int) {
+        products.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, products.size)
+    }
+
+    inner class ProductViewHolder(inflater: LayoutInflater, parent: ViewGroup, private val context: Context) : RecyclerView.ViewHolder(inflater.inflate(
         R.layout.row_cash_register_view, parent, false)) {
 
         private var productView: TextView? = null
@@ -36,6 +43,8 @@ class CashRegisterAdapter(private val products: MutableList<Pair<Product, Int>>,
             productView = itemView.findViewById(R.id.product_name)
             priceView = itemView.findViewById(R.id.total_price)
             removeBtn = itemView.findViewById(R.id.remove_btn)
+
+            removeBtn?.setOnClickListener { removeElement(adapterPosition) }
         }
 
         fun bind(product: Product, quantity: Int) {
@@ -47,9 +56,6 @@ class CashRegisterAdapter(private val products: MutableList<Pair<Product, Int>>,
                 format.format(product.price),
                 quantity,
                 format.format(product.price * quantity))
-            removeBtn?.setOnClickListener {
-                // Todo
-            }
         }
     }
 }
