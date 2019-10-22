@@ -18,6 +18,8 @@ import com.google.zxing.integration.android.IntentResult
 import java.nio.charset.Charset
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.example.cashmanager.data.dto.PaymentCardDTO
+import com.example.cashmanager.data.dto.PaymentChequeDTO
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
 import com.example.cashmanager.service.PaymentService
@@ -134,7 +136,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
      */
     private fun sendChequePayment(content : Any) {
         try {
-            val call = paymentAPI.postChequePayment()
+            val call = paymentAPI.postChequePayment(PaymentChequeDTO("toto", cart.billTotal))
 
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
@@ -173,7 +175,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
      * @param content: Cheque content
      */
     private fun sendCardPayment(content : Any) {
-        val call = paymentAPI.postNFCPayment()
+        val call = paymentAPI.postNFCPayment(PaymentCardDTO("toto"))
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
