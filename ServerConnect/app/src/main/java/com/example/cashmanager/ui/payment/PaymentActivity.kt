@@ -2,6 +2,7 @@ package com.example.cashmanager.ui.payment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
+import android.net.Uri
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.Ndef
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
 import com.example.cashmanager.service.PaymentService
+import com.example.cashmanager.ui.connectionStatus.ConnectionStatusFragment
 import okhttp3.ResponseBody
 import org.koin.android.ext.android.inject
 import retrofit2.Call
@@ -28,7 +30,8 @@ import retrofit2.Response
 import java.lang.Exception
 import java.text.NumberFormat
 
-class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
+class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
+    ConnectionStatusFragment.OnFragmentInteractionListener {
 
     private var NFCscanActive : Boolean = false
     private lateinit var billTextView: TextView
@@ -157,7 +160,11 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
                 }
             })
         } catch (ex : Exception) {
-            println(ex.message)
+            Toast.makeText(
+                activity,
+                resources.getString(R.string.api_call_failed),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -194,5 +201,9 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     fun cancelOperation(v: View) {
         // todo: define what it's suppose to do ?
         //setResult(RESULT_CANCELED, Intent())
+    }
+
+    override fun onFragmentInteraction(uri: Uri) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

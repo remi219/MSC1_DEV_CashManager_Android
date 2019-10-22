@@ -9,6 +9,10 @@
         android:id="@+id/status_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
+        android:background="#FF9800"
+        android:text="@string/status_attempting_connection"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="24sp" />
 
 </FrameLayout>

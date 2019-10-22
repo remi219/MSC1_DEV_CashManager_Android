@@ -7,10 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 import com.example.cashmanager.R
 import com.example.cashmanager.service.StatusService
+import okhttp3.ResponseBody
 import org.koin.android.ext.android.inject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.lang.Exception
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,7 +40,7 @@ class ConnectionStatusFragment : Fragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
-    // lateinit var
+    private var statusTextView: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +58,10 @@ class ConnectionStatusFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_connection_status, container, false)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        statusTextView = view?.findViewById(R.id.status_textview)
+        getServerStatus()
+        super.onActivityCreated(savedInstanceState)
     }
 
     override fun onAttach(context: Context) {
@@ -68,6 +76,36 @@ class ConnectionStatusFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
+    }
+
+    fun getServerStatus() {
+        val call = statusAPI.connectionStatus()
+        statusTextView?.text = resources.getString(R.string.status_attempting_connection)
+        statusTextView?.setBackgroundColor(
+            ContextCompat.getColor(context!!, R.color.colorPending)
+        )
+
+        try {
+            call.enqueue(object: Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    statusTextView?.text = resources.getString(R.string.status_connected)
+                    statusTextView?.setBackgroundColor(
+                        ContextCompat.getColor(context!!, R.color.colorSuccess)
+                    )
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    statusTextView?.text = resources.getString(R.string.status_disconnected)
+                    statusTextView?.setBackgroundColor(
+                        ContextCompat.getColor(context!!, R.color.colorFailure)
+                    )
+                }
+
+            })
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            println(ex.message)
+        }
     }
 
     /**

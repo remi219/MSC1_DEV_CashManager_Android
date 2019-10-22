@@ -25,6 +25,7 @@
     <string name="status_connected">Connected</string>
     <string name="status_attempting_connection">Attempting connection…</string>
     <string name="status_disconnected">Connection failed</string>
+    <string name="api_call_failed">Failed to reach server</string>
 
     <!-- Cash register activity -->
     <string name="cash_register_activity_title">Cash register</string>
