@@ -1,124 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.bill.BillActivity">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/topLayout"
+    <FrameLayout
+        android:id="@+id/progress_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/product_list"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="10dp">
+        android:layout_height="match_parent"
+        android:background="#B0FFFFFF"
+        android:visibility="gone">
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+    </FrameLayout>
 
-        <TextView
-            android:id="@+id/cart"
-            android:layout_width="wrap_content"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.bill.BillActivity">
+
+        <LinearLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cart_products" />
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/product_list"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cart_products" />
+
+            <TextView
+                android:id="@+id/nb_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/product_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bill_total"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topLayout" />
 
         <TextView
-            android:id="@+id/nb_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/product_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bill_total"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topLayout" />
-
-    <TextView
-        android:id="@+id/bill_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/bill_total"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/payment_linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/payment_linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/button_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/payment_label"
+            android:id="@+id/bill_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:text="@string/payment_mode_label"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/cancel_btn"
-            app:layout_constraintEnd_toStartOf="@+id/payment_mode"
+            android:text="@string/bill_total"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/payment_linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.53"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/payment_mode"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/payment_linearLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:text="@string/payment_mode_cheque"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/button_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/payment_label" />
+            app:layout_constraintStart_toStartOf="parent">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/payment_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:text="@string/payment_mode_label"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@+id/cancel_btn"
+                app:layout_constraintEnd_toStartOf="@+id/payment_mode"
+                app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/button_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+            <TextView
+                android:id="@+id/payment_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:text="@string/payment_mode_cheque"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/payment_label" />
 
-        <Button
-            android:id="@+id/cancel_btn"
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:onClick="cancel"
-            android:text="@string/cancel"
-            android:theme="@style/RedButton"
-            style="@style/Widget.AppCompat.Button.Colored"/>
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/proceed_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:onClick="goToPayment"
-            android:text="@string/proceed"
-            android:theme="@style/GreenButton"
-            style="@style/Widget.AppCompat.Button.Colored"/>
+            <Button
+                android:id="@+id/cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:onClick="cancel"
+                android:text="@string/cancel"
+                android:theme="@style/RedButton"
+                style="@style/Widget.AppCompat.Button.Colored"/>
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/proceed_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:onClick="goToPayment"
+                android:text="@string/proceed"
+                android:theme="@style/GreenButton"
+                style="@style/Widget.AppCompat.Button.Colored"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

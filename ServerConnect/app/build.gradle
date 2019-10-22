@@ -50,6 +50,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-inline:2.8.47'
     androidTestImplementation 'androidx.test:runner:1.2.0'
