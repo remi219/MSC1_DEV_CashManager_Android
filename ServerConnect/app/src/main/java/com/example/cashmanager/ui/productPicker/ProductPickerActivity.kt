@@ -18,12 +18,14 @@ import java.io.Serializable
 
 class ProductPickerActivity : AppCompatActivity() {
 
+    val activity = this
     var isBusy : Boolean = true
     var fullCart: Cart = Cart()
     val productAPI : ProductService by inject()
 
     lateinit var productRecyclerView : RecyclerView
 
+    lateinit var cart: Cart
     lateinit var availableProducts : MutableList<Product>
     var productList : MutableList<Pair<Product, Int>> = mutableListOf()
 
@@ -31,19 +33,10 @@ class ProductPickerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_picker)
 
-        val activity = this
-
         productRecyclerView = findViewById(R.id.productPicker_recyclerView)
+        cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
 
         LoadProductList()
-
-        val cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
-        fullCart.prefillQuantity(cart)
-
-        productRecyclerView.apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = ProductPickerAdapter(fullCart)
-        }
     }
 
     /**
@@ -54,29 +47,46 @@ class ProductPickerActivity : AppCompatActivity() {
 
         call.enqueue(object : Callback<List<Product>> {
             override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
-                val product = response.body()
+                availableProducts = response.body() as MutableList<Product>
+                for (product in availableProducts)
+                    fullCart.products.add(Pair(product, 0))
+                setProductAdapter()
+                isBusy = false
             }
 
             override fun onFailure(call: Call<List<Product>>, t: Throwable) {
+                t.printStackTrace()
                 println(t.message)
+                println(call.request().url())
+                println(call.request().method())
+
+                availableProducts = mutableListOf(
+                    Product(1, "Water bottle", 0.5),
+                    Product(2, "Soda bottle", 1.0),
+                    Product(3, "Ice Tea bottle", 1.25),
+                    Product(4, "Coffee bottle", 1.5),
+                    Product(5, "Orange juice bottle", 0.75),
+                    Product(6, "Apple juice bottle", 0.69),
+                    Product(7, "Pear juice bottle", 1.12),
+                    Product(8, "Item with a very very very very long name on several line", 0.99),
+                    Product(9, "Banana juice bottle", 0.95),
+                    Product(10, "Toto", 99.995644)
+                )
+                for (product in availableProducts)
+                    fullCart.products.add(Pair(product, 0))
+                setProductAdapter()
+                isBusy = false
             }
         })
+    }
 
-        availableProducts = mutableListOf(
-            Product(1, "Water bottle", 0.5f),
-            Product(2, "Soda bottle", 1f),
-            Product(3, "Ice Tea bottle", 1.25f),
-            Product(4, "Coffee bottle", 1.5f),
-            Product(5, "Orange juice bottle", 0.75f),
-            Product(6, "Apple juice bottle", 0.69f),
-            Product(7, "Pear juice bottle", 1.12f),
-            Product(8, "Item with a very very very very long name on several line", 0.99f),
-            Product(9, "Banana juice bottle", 0.95f),
-            Product(10, "Toto", 99.995644f)
-        )
-        for (product in availableProducts)
-            fullCart.products.add(Pair(product, 0))
-        isBusy = false
+    fun setProductAdapter() {
+        fullCart.prefillQuantity(cart)
+
+        productRecyclerView.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = ProductPickerAdapter(fullCart)
+        }
     }
 
     /**

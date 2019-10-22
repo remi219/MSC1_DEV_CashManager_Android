@@ -13,12 +13,12 @@ interface ProductService {
     /**
      * Get the list of all available products
      */
-    @GET("/products")
+    @GET("/product")
     fun availableProducts(): Call<List<Product>>
 
     /**
      * Post the list of products in the user cart
      */
-    @POST("/products/{id}")
+    @POST("/product/{id}")
     fun addProducts(@Path("id") userId: Int, @Body products : List<ProductWrapperDTO> )
 }

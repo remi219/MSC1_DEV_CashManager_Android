@@ -8,9 +8,9 @@ class Cart : Serializable {
     /**
      * Total value of the cart
      */
-    val billTotal: Float
+    val billTotal: Double
         get() {
-            var total = 0f
+            var total = 0.0
             for(product in products)
                 total += product.first.price * product.second
             return total
