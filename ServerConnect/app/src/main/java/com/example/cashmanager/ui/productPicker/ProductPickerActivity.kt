@@ -61,9 +61,9 @@ class ProductPickerActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<List<Product>>, t: Throwable) {
                 t.printStackTrace()
-                println(t.message)
-                println(call.request().url())
-                println(call.request().method())
+//                println(t.message)
+//                println(call.request().url())
+//                println(call.request().method())
 
                 availableProducts = mutableListOf(
                     Product(1, "Water bottle", 0.5),

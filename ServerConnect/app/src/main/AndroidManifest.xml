@@ -28,6 +28,7 @@
         <activity
             android:name=".ui.payment.PaymentActivity"
             android:label="@string/payment_activity_title"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait">
         </activity>
         <activity

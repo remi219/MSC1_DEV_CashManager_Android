@@ -29,7 +29,7 @@
 
     <!-- Cash register activity -->
     <string name="cash_register_activity_title">Cash register</string>
-    <string name="cart">Cart</string>
+    <string name="cart">Your cart</string>
     <string name="no_article_warning">No article in cart</string>
     <string name="add_article_btn">Add articles</string>
     <string name="total">Total: %s</string>
@@ -49,6 +49,8 @@
 
 
     <!-- Payment activity-->
+    <string name="nfc_not_supported">NFC is not supported on this device, go back and change your payment method</string>
+    <string name="nfc_not_enable">Please enable NFC in your device settings to proceed</string>
     <string name="payment_activity_title">Payment</string>
     <string name="status">Status:</string>
     <string name="pending_authorization">Pending authorization</string>

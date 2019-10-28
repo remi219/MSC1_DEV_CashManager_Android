@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -15,15 +16,11 @@ import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
 import com.example.cashmanager.service.OrderService
 import com.example.cashmanager.ui.payment.PaymentActivity
-import com.example.cashmanager.ui.productPicker.ProductPickerAdapter
-import kotlinx.android.synthetic.main.activity_bill.*
 import org.koin.android.ext.android.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 import java.text.NumberFormat
-import kotlin.reflect.typeOf
 
 class BillActivity : AppCompatActivity() {
 
@@ -34,8 +31,10 @@ class BillActivity : AppCompatActivity() {
 
     lateinit var cartRecyclerView : RecyclerView
     lateinit var totalTextView : TextView
-    lateinit var paymentLabel : TextView
+    lateinit var paymentTextView : TextView
+    lateinit var nbItemTextView : TextView
     lateinit var progressView : FrameLayout
+    lateinit var goToPaymentBtn : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,18 +42,21 @@ class BillActivity : AppCompatActivity() {
 
         cartRecyclerView = findViewById(R.id.product_list)
         totalTextView = findViewById(R.id.bill_total)
-        paymentLabel = findViewById(R.id.payment_mode)
+        nbItemTextView = findViewById(R.id.nb_item)
+        paymentTextView = findViewById(R.id.payment_mode)
         progressView = findViewById(R.id.progress_view)
+        goToPaymentBtn = findViewById(R.id.proceed_btn)
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
         paymentMode = intent.getSerializableExtra("paymentMode") as PaymentMode
         if (paymentMode == PaymentMode.CHEQUE)
-            paymentLabel.text = resources.getString(R.string.payment_mode_cheque)
+            paymentTextView.text = resources.getString(R.string.payment_mode_cheque)
         else
-            paymentLabel.text = resources.getString(R.string.payment_mode_nfc)
+            paymentTextView.text = resources.getString(R.string.payment_mode_nfc)
         // Todo; error handling if cart is false
         val format = NumberFormat.getCurrencyInstance()
         totalTextView.text = resources.getString(R.string.bill_total, format.format(cart.billTotal))
+        nbItemTextView.text = resources.getQuantityString(R.plurals.items, cart.products.size, cart.products.size)
 
         val activity = this
         cartRecyclerView.apply {
@@ -67,6 +69,7 @@ class BillActivity : AppCompatActivity() {
         val intent = Intent(this, PaymentActivity::class.java)
         intent.putExtra("cart", cart)
         intent.putExtra("paymentMode", paymentMode)
+        goToPaymentBtn.isEnabled = false
 
         progressView.visibility = View.VISIBLE
 
@@ -74,12 +77,14 @@ class BillActivity : AppCompatActivity() {
             override fun onResponse(call: Call<OrderDTO>, response: Response<OrderDTO>) {
                 startActivity(intent)
                 progressView.visibility = View.GONE
+                goToPaymentBtn.isEnabled = true
             }
 
             override fun onFailure(call: Call<OrderDTO>, t: Throwable) {
                 startActivity(intent)
                 progressView.visibility = View.GONE
                 Toast.makeText(activity, "Could not make order", Toast.LENGTH_SHORT).show()
+                goToPaymentBtn.isEnabled = true
             }
         })
     }

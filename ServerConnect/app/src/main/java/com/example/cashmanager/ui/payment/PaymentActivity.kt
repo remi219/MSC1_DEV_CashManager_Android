@@ -1,5 +1,6 @@
 package com.example.cashmanager.ui.payment
 
+import android.app.PendingIntent
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.net.Uri
@@ -72,6 +73,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
         else {
             scanChequeBtn.visibility = View.GONE
             scanNFCBtn.visibility = View.VISIBLE
+            nfcCheck()
         }
     }
 
@@ -112,7 +114,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
         val mainHandler = Handler(Looper.getMainLooper())
 
         this.runOnUiThread {
-            Toast.makeText(this, "NFC detected", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "NFC detected $message", Toast.LENGTH_SHORT).show()
         }
         if (message != "")
             println(message)
@@ -120,6 +122,22 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
             println("No message")
         sendCardPayment(message)
     }
+
+    /**
+     * Check if nfc is available and enabled
+     */
+    fun nfcCheck() {
+        val nfcAndroidAdapter = NfcAdapter.getDefaultAdapter(this)
+
+        if (nfcAndroidAdapter == null) {
+            Toast.makeText(this, resources.getString(R.string.nfc_not_supported), Toast.LENGTH_LONG).show()
+        } else {
+            if (!nfcAndroidAdapter.isEnabled) {
+                Toast.makeText(this, resources.getString(R.string.nfc_not_enable), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
 
     /***
      * Start scanning activity
@@ -130,6 +148,9 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
         }
     }
 
+    /**
+     * Start NFC scanning
+     */
     fun scanNFC(v: View) {
         NFCscanActive = true
     }
