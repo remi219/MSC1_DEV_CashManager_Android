@@ -78,26 +78,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:textAlignment="center"
         android:background="@color/colorPending"
         android:padding="10dp"
-        android:text="@string/pending_authorization"
+        android:text="@string/pending_payment"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         android:theme="@style/RedButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/status_title" />
-
-    <Button
-        android:id="@+id/cancel_op_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="cancelOperation"
-        android:text="@string/cancel_op_btn"
-        android:theme="@style/RedButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/back_register_btn"
@@ -109,6 +99,18 @@
         android:text="@string/back_to_register_btn"
         android:theme="@style/GreenButton"
         app:layout_constraintBottom_toTopOf="@+id/cancel_op_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/cancel_op_btn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="cancelOperation"
+        android:text="@string/cancel_op_btn"
+        android:theme="@style/RedButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -77,13 +77,15 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
         }
     }
 
+    /**
+     * On qr code read activity reader
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
         if(result != null){
-            // Todo: send data to the api
-            Toast.makeText(this, "Todo: waiting answer from the server", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Info received: $result", Toast.LENGTH_LONG).show()
 
             if(result.contents != null){
                 sendChequePayment(result.contents)
@@ -160,26 +162,23 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
      * @param content: Cheque content
      */
     private fun sendChequePayment(content : Any) {
+        statusTextView.text = resources.getString(R.string.pending_authorization)
+        statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorPending))
         try {
             val call = paymentAPI.postChequePayment(PaymentChequeDTO("toto", cart.billTotal))
-
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>
                 ) {
                     statusTextView.text = resources.getString(R.string.cheque_authorized)
-                    statusTextView.setBackgroundColor(
-                        ContextCompat.getColor(activity, R.color.colorSuccess)
-                    )
+                    statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorSuccess))
                     backToRegisterBtn.isEnabled = true
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     statusTextView.text = resources.getString(R.string.cheque_refused)
-                    statusTextView.setBackgroundColor(
-                        ContextCompat.getColor(activity, R.color.colorFailure)
-                    )
+                    statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorFailure))
                     Toast.makeText(
                         activity,
                         resources.getString(R.string.cheque_refused),
@@ -193,6 +192,8 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
                 resources.getString(R.string.api_call_failed),
                 Toast.LENGTH_SHORT
             ).show()
+            statusTextView.text = resources.getText(R.string.api_connection_failed)
+            statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorFailure))
         }
     }
 

@@ -4,10 +4,12 @@ import com.example.cashmanager.service.OrderService
 import com.example.cashmanager.service.PaymentService
 import com.example.cashmanager.service.ProductService
 import com.example.cashmanager.service.StatusService
+import okhttp3.Interceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import java.util.concurrent.TimeUnit
 
 
@@ -17,6 +19,17 @@ private val okHttpClient = OkHttpClient.Builder()
     .readTimeout(3, TimeUnit.SECONDS)
     .connectTimeout(3, TimeUnit.SECONDS)
     .build()
+
+// Add interceptor which get the jwt token from storage and add as interceptor header
+class JwtInterceptor: Interceptor
+{
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val accessToken = ""
+        val request =
+            chain.request().newBuilder().addHeader("Authorization", "Bearer $accessToken").build()
+        return chain.proceed(request)
+    }
+}
 
 private val retrofit: Retrofit = Retrofit.Builder()
     .baseUrl(baseURl)

@@ -53,6 +53,7 @@
     <string name="nfc_not_enable">Please enable NFC in your device settings to proceed</string>
     <string name="payment_activity_title">Payment</string>
     <string name="status">Status:</string>
+    <string name="pending_payment">Awaiting payment</string>
     <string name="pending_authorization">Pending authorization</string>
     <string name="cheque_authorized">Cheque authorized</string>
     <string name="cheque_refused">Cheque refused</string>
@@ -63,6 +64,7 @@
     <string name="card_refused">Card payment refused</string>
     <string name="scan_cheque_btn">Scan cheque</string>
     <string name="scan_card_btn">Scan card</string>
+    <string name="api_connection_failed">Failed to connect to server</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
