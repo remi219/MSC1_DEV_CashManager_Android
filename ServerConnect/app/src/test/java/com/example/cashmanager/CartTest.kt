@@ -10,6 +10,14 @@ class CartTest {
     private val cart : Cart = Cart()
 
     @Test
+    fun testAddProduct(){
+        val initialCartSize: Int = cart.products.size
+        cart.products.add(Pair(Product(1, "TestProduct", "34.50".toDouble()), 1))
+        val newCartSize: Int = cart.products.size
+        assertEquals(initialCartSize + 1, newCartSize)
+    }
+
+    @Test
     fun testReset() {
         cart.products.add(Pair(Product(1, "TestProduct", "34.50".toDouble()), 1))
         cart.reset()
