@@ -1,15 +1,23 @@
 <resources>
     <string name="app_name">CashManager</string>
+
     <!-- Strings related to login -->
-    <string name="prompt_ip">Ip</string>
+    <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Connect to server</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Connected to server"</string>
-    <string name="invalid_ip">Not a valid ip</string>
+    <string name="prompt_profile">Profile</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Register</string>
+    <string name="welcome">Welcome</string>
+    <string name="invalid_username">Not a valid email address</string>
     <string name="invalid_password">Password must be at least 4 characters long</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="instruction">Enter IP and password of the server you wan\'t to be connected to</string>
+    <string name="instruction">Enter your username and password</string>
+    <string name="instruction_profile">Then select a profile</string>
+    <string-array name="profiles">
+        <item>Administrator</item>
+        <item>Customer</item>
+        <item>Supplier</item>
+    </string-array>
 
     <!-- Shared -->
     <string name="cancel">Cancel</string>

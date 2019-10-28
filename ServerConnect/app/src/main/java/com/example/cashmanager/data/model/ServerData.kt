@@ -1,6 +1,6 @@
 package com.example.cashmanager.data.model
 
 data class ServerData(
-    val ip: String,
+    val username: String,
     val password: String
 )
