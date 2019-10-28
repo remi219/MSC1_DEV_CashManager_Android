@@ -8,6 +8,9 @@ import retrofit2.http.Path
 
 interface OrderService {
 
+    /**
+     * Create an order
+     */
     @POST("order/{userId}")
     fun createUserOrder(@Path("userId") userId : Int, @Body order : OrderDTO) : Call<OrderDTO>
 }

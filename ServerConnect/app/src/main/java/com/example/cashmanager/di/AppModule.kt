@@ -20,17 +20,6 @@ private val okHttpClient = OkHttpClient.Builder()
     .connectTimeout(3, TimeUnit.SECONDS)
     .build()
 
-// Add interceptor which get the jwt token from storage and add as interceptor header
-class JwtInterceptor: Interceptor
-{
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val accessToken = ""
-        val request =
-            chain.request().newBuilder().addHeader("Authorization", "Bearer $accessToken").build()
-        return chain.proceed(request)
-    }
-}
-
 private val retrofit: Retrofit = Retrofit.Builder()
     .baseUrl(baseURl)
     .addConverterFactory(GsonConverterFactory.create())
