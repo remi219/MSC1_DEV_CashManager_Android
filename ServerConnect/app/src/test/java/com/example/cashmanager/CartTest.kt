@@ -11,7 +11,7 @@ class CartTest {
 
     @Test
     fun testReset() {
-        cart.products.add(Pair(Product(1, "TestProduct", "34.50".toFloat()), 1))
+        cart.products.add(Pair(Product(1, "TestProduct", "34.50".toDouble()), 1))
         cart.reset()
         assertEquals(TRUE, cart.products.isEmpty())
     }
