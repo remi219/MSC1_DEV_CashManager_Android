@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
@@ -19,11 +21,11 @@ import java.io.Serializable
 class ProductPickerActivity : AppCompatActivity() {
 
     val activity = this
-    var isBusy : Boolean = true
     var fullCart: Cart = Cart()
     val productAPI : ProductService by inject()
 
     lateinit var productRecyclerView : RecyclerView
+    lateinit var progressBar : ProgressBar
 
     lateinit var cart: Cart
     lateinit var availableProducts : MutableList<Product>
@@ -34,15 +36,18 @@ class ProductPickerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_product_picker)
 
         productRecyclerView = findViewById(R.id.productPicker_recyclerView)
+        progressBar = findViewById(R.id.progressBar)
+
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
 
-        LoadProductList()
+        loadProductList()
     }
 
     /**
      * Load the list of available products from the API
      */
-    fun LoadProductList() {
+    fun loadProductList() {
+        progressBar.visibility = View.VISIBLE
         val call = productAPI.availableProducts()
 
         call.enqueue(object : Callback<List<Product>> {
@@ -51,7 +56,7 @@ class ProductPickerActivity : AppCompatActivity() {
                 for (product in availableProducts)
                     fullCart.products.add(Pair(product, 0))
                 setProductAdapter()
-                isBusy = false
+                progressBar.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<List<Product>>, t: Throwable) {
@@ -75,7 +80,8 @@ class ProductPickerActivity : AppCompatActivity() {
                 for (product in availableProducts)
                     fullCart.products.add(Pair(product, 0))
                 setProductAdapter()
-                isBusy = false
+                Toast.makeText(activity, "API unavailable, loading mocked products instead", Toast.LENGTH_SHORT).show()
+                progressBar.visibility = View.GONE
             }
         })
     }
