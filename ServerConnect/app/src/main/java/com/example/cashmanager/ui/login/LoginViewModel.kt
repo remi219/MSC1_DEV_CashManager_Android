@@ -17,21 +17,19 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(ip: String, password: String) {
-        // can be launched in a separate asynchronous job
-        val result = loginRepository.login(ip, password)
-
+    fun login(username: String, password: String) {
+        val result = loginRepository.login(username, password)
         if (result is Result.Success) {
             _loginResult.value =
-                LoginResult(success = ServerDataView(displayIp = result.data.ip))
+                LoginResult(success = ServerDataView(displayUsername = result.data.username))
         } else {
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }
     }
 
-    fun loginDataChanged(ip: String, password: String) {
-        if (!isIpValid(ip)) {
-            _loginForm.value = LoginFormState(ipError = R.string.invalid_ip)
+    fun loginDataChanged(username: String, password: String) {
+        if (!isUsernameValid(username)) {
+            _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
         } else if (!isPasswordValid(password)) {
             _loginForm.value = LoginFormState(passwordError = R.string.invalid_password)
         } else {
@@ -39,12 +37,10 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
-    // A placeholder ip validation check
-    private fun isIpValid(ip: String): Boolean {
-        return Patterns.IP_ADDRESS.matcher(ip).matches()
+    private fun isUsernameValid(username: String): Boolean {
+        return Patterns.EMAIL_ADDRESS.matcher(username).matches()
     }
 
-    // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {
         return password.length >= 4
     }
