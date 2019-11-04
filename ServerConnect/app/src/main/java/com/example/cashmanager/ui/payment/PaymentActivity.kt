@@ -1,6 +1,7 @@
 package com.example.cashmanager.ui.payment
 
 import android.app.PendingIntent
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.net.Uri
@@ -23,7 +24,9 @@ import com.example.cashmanager.data.dto.PaymentCardDTO
 import com.example.cashmanager.data.dto.PaymentChequeDTO
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
+import com.example.cashmanager.service.OrderService
 import com.example.cashmanager.service.PaymentService
+import com.example.cashmanager.service.ServiceBuilder
 import com.example.cashmanager.ui.connectionStatus.ConnectionStatusFragment
 import okhttp3.ResponseBody
 import org.koin.android.ext.android.inject
@@ -46,8 +49,8 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
 
     private lateinit var cart : Cart
     private lateinit var paymentMode : PaymentMode
+    private lateinit var paymentAPI : PaymentService
     private val activity = this
-    private val paymentAPI : PaymentService by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,9 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
         scanNFCBtn = findViewById(R.id.scan_nfc_btn)
         backToRegisterBtn = findViewById(R.id.back_register_btn)
         cancelOpBtn = findViewById(R.id.cancel_op_btn)
+
+        val prefs = getSharedPreferences("jwt", Context.MODE_PRIVATE)
+        paymentAPI = ServiceBuilder.createService(PaymentService::class.java, prefs.getString("token", ""))
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
 
@@ -221,9 +227,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
      * Return to Cash register activity when the payment is successful
      */
     fun backToRegister(v : View) {
-        setResult(RESULT_OK, Intent())
-        onBackPressed()
-        onBackPressed()
+        finish()
     }
 
     /***

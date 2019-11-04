@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/product_list"
+            app:layout_constraintBottom_toTopOf="@+id/separator1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,14 +40,30 @@
 
         </LinearLayout>
 
+        <View
+            android:id="@+id/separator1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/topLayout"
+            app:layout_constraintBottom_toTopOf="@+id/product_list"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/product_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/bill_total"
+            app:layout_constraintBottom_toTopOf="@+id/separator2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/separator1" />
+
+        <View
+            android:id="@+id/separator2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/product_list"
+            app:layout_constraintBottom_toTopOf="@+id/bill_total"/>
 
         <TextView
             android:id="@+id/bill_total"

@@ -1,5 +1,6 @@
 package com.example.cashmanager.ui.bill
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.example.cashmanager.data.dto.OrderDTO
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
 import com.example.cashmanager.service.OrderService
+import com.example.cashmanager.service.ServiceBuilder
 import com.example.cashmanager.ui.payment.PaymentActivity
 import org.koin.android.ext.android.inject
 import retrofit2.Call
@@ -27,7 +29,7 @@ class BillActivity : AppCompatActivity() {
     lateinit var cart : Cart
     lateinit var paymentMode : PaymentMode
     private val activity = this
-    private val orderAPI : OrderService by inject()
+    private lateinit var orderAPI : OrderService
 
     lateinit var cartRecyclerView : RecyclerView
     lateinit var totalTextView : TextView
@@ -46,6 +48,9 @@ class BillActivity : AppCompatActivity() {
         paymentTextView = findViewById(R.id.payment_mode)
         progressView = findViewById(R.id.progress_view)
         goToPaymentBtn = findViewById(R.id.proceed_btn)
+
+        val prefs = getSharedPreferences("jwt", Context.MODE_PRIVATE)
+        orderAPI = ServiceBuilder.createService(OrderService::class.java, prefs.getString("token", ""))
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
         paymentMode = intent.getSerializableExtra("paymentMode") as PaymentMode

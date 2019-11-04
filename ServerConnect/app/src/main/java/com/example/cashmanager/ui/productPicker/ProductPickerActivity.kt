@@ -1,5 +1,6 @@
 package com.example.cashmanager.ui.productPicker
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.Product
+import com.example.cashmanager.service.PaymentService
 import com.example.cashmanager.service.ProductService
+import com.example.cashmanager.service.ServiceBuilder
 import org.koin.android.ext.android.inject
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +25,7 @@ class ProductPickerActivity : AppCompatActivity() {
 
     val activity = this
     var fullCart: Cart = Cart()
-    val productAPI : ProductService by inject()
+    private lateinit var productAPI : ProductService
 
     lateinit var productRecyclerView : RecyclerView
     lateinit var progressBar : ProgressBar
@@ -37,6 +40,9 @@ class ProductPickerActivity : AppCompatActivity() {
 
         productRecyclerView = findViewById(R.id.productPicker_recyclerView)
         progressBar = findViewById(R.id.progressBar)
+
+        val prefs = getSharedPreferences("jwt", Context.MODE_PRIVATE)
+        productAPI = ServiceBuilder.createService(ProductService::class.java, prefs.getString("token", ""))
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
 
