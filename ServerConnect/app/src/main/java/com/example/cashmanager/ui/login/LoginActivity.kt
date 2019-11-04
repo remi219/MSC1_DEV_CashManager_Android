@@ -1,6 +1,7 @@
 package com.example.cashmanager.ui.login
 
 import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -16,6 +17,9 @@ import android.widget.ProgressBar
 import android.widget.Toast
 
 import com.example.cashmanager.R
+import com.example.cashmanager.ui.cashRegister.CashRegisterActivity
+import com.example.cashmanager.ui.cashRegister.CashRegisterAdapter
+import com.example.cashmanager.ui.payment.PaymentActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -51,7 +55,8 @@ class LoginActivity : AppCompatActivity() {
                 updateUiWithUser(loginResult.success)
             }
             setResult(Activity.RESULT_OK)
-            finish()
+            val intent = Intent(this, CashRegisterActivity::class.java)
+            startActivity(intent)
         })
         username.afterTextChanged {
             loginViewModel.loginDataChanged(

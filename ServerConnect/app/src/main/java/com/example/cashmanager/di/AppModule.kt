@@ -1,9 +1,6 @@
 package com.example.cashmanager.di
 
-import com.example.cashmanager.service.OrderService
-import com.example.cashmanager.service.PaymentService
-import com.example.cashmanager.service.ProductService
-import com.example.cashmanager.service.StatusService
+import com.example.cashmanager.service.*
 import okhttp3.Interceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -30,10 +27,12 @@ private val statusAPI = retrofit.create(StatusService::class.java)
 private val productAPI = retrofit.create(ProductService::class.java)
 private val paymentAPI = retrofit.create(PaymentService::class.java)
 private val orderAPI = retrofit.create(OrderService::class.java)
+private val loginAPI = retrofit.create(LoginService::class.java)
 
 val appModule = module {
     single {statusAPI}
     single {productAPI}
     single {paymentAPI}
     single {orderAPI}
+    single {loginAPI}
 }
