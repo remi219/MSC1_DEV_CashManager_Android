@@ -41,7 +41,7 @@ class ProductPickerActivity : AppCompatActivity() {
         productRecyclerView = findViewById(R.id.productPicker_recyclerView)
         progressBar = findViewById(R.id.progressBar)
 
-        val prefs = getSharedPreferences("jwt", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
         productAPI = ServiceBuilder.createService(ProductService::class.java, prefs.getString("token", ""))
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()

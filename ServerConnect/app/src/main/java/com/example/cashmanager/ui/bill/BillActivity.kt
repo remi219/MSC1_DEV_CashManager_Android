@@ -49,7 +49,7 @@ class BillActivity : AppCompatActivity() {
         progressView = findViewById(R.id.progress_view)
         goToPaymentBtn = findViewById(R.id.proceed_btn)
 
-        val prefs = getSharedPreferences("jwt", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
         orderAPI = ServiceBuilder.createService(OrderService::class.java, prefs.getString("token", ""))
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()

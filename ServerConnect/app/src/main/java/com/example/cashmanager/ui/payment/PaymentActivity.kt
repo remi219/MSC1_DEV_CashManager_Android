@@ -63,7 +63,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
         backToRegisterBtn = findViewById(R.id.back_register_btn)
         cancelOpBtn = findViewById(R.id.cancel_op_btn)
 
-        val prefs = getSharedPreferences("jwt", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
         paymentAPI = ServiceBuilder.createService(PaymentService::class.java, prefs.getString("token", ""))
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
