@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name = "NoActionBar" parent = "Theme.AppCompat.Light.NoActionBar">
+        <item name = "android:windowActionBar">false</item>
+        <item name = "android:windowNoTitle">true</item>
+    </style>
+
     <style name="GreenButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">#8BC34A</item>
         <item name="colorButtonNormal">#484CAF50</item>

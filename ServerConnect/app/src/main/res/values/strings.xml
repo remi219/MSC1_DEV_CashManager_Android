@@ -20,6 +20,7 @@
     </string-array>
 
     <!-- Shared -->
+    <string name="cash_manager">Cash Manager</string>
     <string name="cancel">Cancel</string>
     <string name="proceed">Proceed</string>
     <string name="reset">Reset</string>
