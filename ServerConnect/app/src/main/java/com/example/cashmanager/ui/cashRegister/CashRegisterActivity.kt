@@ -1,11 +1,15 @@
 package com.example.cashmanager.ui.cashRegister
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
@@ -15,6 +19,8 @@ import com.example.cashmanager.ui.bill.BillActivity
 import com.example.cashmanager.ui.productPicker.ProductPickerActivity
 import java.io.Serializable
 import java.text.NumberFormat
+
+
 
 class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
@@ -51,6 +57,36 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
         totalTextView.text = resources.getString(R.string.bill_total, format.format(0))
         proceedButton.isEnabled = false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_logout, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_logout -> {
+                val builder = AlertDialog.Builder(this)
+                with(builder)
+                {
+                    setIcon(android.R.drawable.ic_dialog_alert)
+                    setTitle(R.string.logout)
+                    setMessage(R.string.logout_message)
+                    setPositiveButton(R.string.ok){ _, _ ->
+                        val pref = applicationContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
+                        val editor = pref.edit()
+                        editor.remove("jwt")
+                        editor.apply()
+                        finish()
+                    }
+                    setNegativeButton(R.string.cancel, null)
+                    show()
+                }
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

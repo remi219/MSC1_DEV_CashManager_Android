@@ -21,6 +21,7 @@
 
     <!-- Shared -->
     <string name="cash_manager">Cash Manager</string>
+    <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="proceed">Proceed</string>
     <string name="reset">Reset</string>
@@ -29,6 +30,8 @@
     <string name="payment_mode_cheque">QRcode cheque</string>
     <string name="payment_mode_nfc">NFC card</string>
     <string name="full_price">%1$s x %2$d = %3$s</string>
+    <string name="logout">Logout</string>
+    <string name="logout_message">Do you want to log out of the application?</string>
 
     <!-- Connection status -->
     <string name="status_connected">Connected</string>
