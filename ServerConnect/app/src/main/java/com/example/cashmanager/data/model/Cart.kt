@@ -48,7 +48,7 @@ class Cart : Serializable {
      * Substract a product at the selected position
      * @param position position in the list of products
      */
-    fun substractProduct(position: Int) {
+    fun subtractProduct(position: Int) {
         val qty: Int = products[position].second
         products[position] = products[position].copy(second = if (qty == 0) 0 else qty - 1)
     }

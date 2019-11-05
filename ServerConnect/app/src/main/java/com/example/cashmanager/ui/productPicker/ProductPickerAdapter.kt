@@ -1,11 +1,8 @@
 package com.example.cashmanager.ui.productPicker
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
@@ -54,7 +51,7 @@ class ProductPickerAdapter(private val fullCart : Cart) : RecyclerView.Adapter<P
             }
 
             subBtn?.setOnClickListener {
-                fullCart.substractProduct(position)
+                fullCart.subtractProduct(position)
                 quantityView?.text = fullCart.products[position].second.toString()
             }
         }
