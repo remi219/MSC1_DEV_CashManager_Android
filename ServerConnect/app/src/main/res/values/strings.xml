@@ -60,6 +60,7 @@
     </plurals>
 
     <!-- Payment activity-->
+    <string name="nfc_payment">NFC payment</string>
     <string name="nfc_not_supported">NFC is not supported on this device, go back and change your payment method</string>
     <string name="nfc_not_enable">Please enable NFC in your device settings to proceed</string>
     <string name="payment_activity_title">Payment</string>
