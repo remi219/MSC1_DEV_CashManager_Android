@@ -1,6 +1,5 @@
 package com.example.cashmanager.ui.payment
 
-import android.app.PendingIntent
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
@@ -23,18 +22,19 @@ import androidx.core.content.ContextCompat
 import com.example.cashmanager.data.dto.PaymentCardDTO
 import com.example.cashmanager.data.dto.PaymentChequeDTO
 import com.example.cashmanager.data.model.Cart
+import com.example.cashmanager.data.model.ChequeData
 import com.example.cashmanager.data.model.PaymentMode
-import com.example.cashmanager.service.OrderService
 import com.example.cashmanager.service.PaymentService
 import com.example.cashmanager.service.ServiceBuilder
 import com.example.cashmanager.ui.connectionStatus.ConnectionStatusFragment
+import com.google.gson.Gson
 import okhttp3.ResponseBody
-import org.koin.android.ext.android.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
 import java.text.NumberFormat
+import kotlin.math.round
 
 class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
     ConnectionStatusFragment.OnFragmentInteractionListener {
@@ -91,8 +91,7 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
         val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
 
         if(result != null){
-            Toast.makeText(this, "Info received: $result", Toast.LENGTH_LONG).show()
-
+            println(result.contents)
             if(result.contents != null){
                 sendChequePayment(result.contents)
             } else {
@@ -167,11 +166,34 @@ class PaymentActivity : AppCompatActivity(), NfcAdapter.ReaderCallback,
      * Send the scanned cheque data to the payment API
      * @param content: Cheque content
      */
-    private fun sendChequePayment(content : Any) {
+    private fun sendChequePayment(content : String) {
         statusTextView.text = resources.getString(R.string.pending_authorization)
         statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorPending))
+        val chequeData : ChequeData?
+        val gson = Gson()
+
+        // Check if data are valid
         try {
-            val call = paymentAPI.postChequePayment(PaymentChequeDTO("toto", cart.billTotal))
+            chequeData = gson.fromJson(content, ChequeData::class.java)
+        }
+        catch (ex: Exception) {
+            println(ex.message)
+            statusTextView.text = resources.getText(R.string.cheque_unreadable)
+            statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorFailure))
+            return
+        }
+
+        // Check if value is correct
+        if (round(chequeData.value * 100) / 100 != round(cart.billTotal * 100) / 100) {
+            val format = NumberFormat.getCurrencyInstance()
+            statusTextView.text = resources.getString(R.string.cheque_invalid_value, format.format(chequeData.value))
+            statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorFailure))
+            return
+        }
+
+        // Call to the server
+        try {
+            val call = paymentAPI.postChequePayment(PaymentChequeDTO(chequeData.id, cart.billTotal))
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>,

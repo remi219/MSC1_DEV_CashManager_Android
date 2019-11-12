@@ -59,7 +59,6 @@
         <item quantity="other">%d items</item>
     </plurals>
 
-
     <!-- Payment activity-->
     <string name="nfc_not_supported">NFC is not supported on this device, go back and change your payment method</string>
     <string name="nfc_not_enable">Please enable NFC in your device settings to proceed</string>
@@ -69,6 +68,8 @@
     <string name="pending_authorization">Pending authorization</string>
     <string name="cheque_authorized">Cheque authorized</string>
     <string name="cheque_refused">Cheque refused</string>
+    <string name="cheque_unreadable">Failed to extract data from QRcode</string>
+    <string name="cheque_invalid_value">Cheque has wrong value: %s</string>
     <string name="scan_failed">Scanning failed</string>
     <string name="back_to_register_btn">Back to register</string>
     <string name="cancel_op_btn">Cancel operation</string>
