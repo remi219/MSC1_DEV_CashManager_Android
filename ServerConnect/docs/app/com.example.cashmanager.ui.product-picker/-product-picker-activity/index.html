@@ -1,0 +1,123 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ProductPickerActivity - app</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">app</a>&nbsp;/&nbsp;<a href="../index.html">com.example.cashmanager.ui.productPicker</a>&nbsp;/&nbsp;<a href="./index.html">ProductPickerActivity</a><br/>
+<br/>
+<h1>ProductPickerActivity</h1>
+<code><span class="keyword">class </span><span class="identifier">ProductPickerActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">ProductPickerActivity</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="activity.html">activity</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">activity</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">ProductPickerActivity</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="available-products.html">availableProducts</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">availableProducts</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../../com.example.cashmanager.data.model/-product/index.html"><span class="identifier">Product</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="cart.html">cart</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">cart</span><span class="symbol">: </span><a href="../../com.example.cashmanager.data.model/-cart/index.html"><span class="identifier">Cart</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="full-cart.html">fullCart</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">fullCart</span><span class="symbol">: </span><a href="../../com.example.cashmanager.data.model/-cart/index.html"><span class="identifier">Cart</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="product-list.html">productList</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">productList</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html"><span class="identifier">Pair</span></a><span class="symbol">&lt;</span><a href="../../com.example.cashmanager.data.model/-product/index.html"><span class="identifier">Product</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">&gt;</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="product-recycler-view.html">productRecyclerView</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">productRecyclerView</span><span class="symbol">: </span><span class="identifier">RecyclerView</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="progress-bar.html">progressBar</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">progressBar</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/widget/ProgressBar.html"><span class="identifier">ProgressBar</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="add-products-to-cart.html">addProductsToCart</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">addProductsToCart</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.productPicker.ProductPickerActivity$addProductsToCart(android.view.View)/v">v</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Set the selected products to the cart</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="cancel.html">cancel</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">cancel</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.productPicker.ProductPickerActivity$cancel(android.view.View)/v">v</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="load-product-list.html">loadProductList</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">loadProductList</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Load the list of available products from the API</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="on-create.html">onCreate</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.productPicker.ProductPickerActivity$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="set-product-adapter.html">setProductAdapter</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">setProductAdapter</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,75 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>LoginRepository - app</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">app</a>&nbsp;/&nbsp;<a href="../index.html">com.example.cashmanager.data</a>&nbsp;/&nbsp;<a href="./index.html">LoginRepository</a><br/>
+<br/>
+<h1>LoginRepository</h1>
+<code><span class="keyword">class </span><span class="identifier">LoginRepository</span></code>
+<p>Class that requests authentication and server information from the remote data source and
+maintains an in-memory cache of login status and server credentials information.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">LoginRepository</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.data.LoginRepository$<init>(com.example.cashmanager.data.LoginDataSource)/dataSource">dataSource</span><span class="symbol">:</span>&nbsp;<a href="../-login-data-source/index.html"><span class="identifier">LoginDataSource</span></a><span class="symbol">)</span></code>
+<p>Class that requests authentication and server information from the remote data source and
+maintains an in-memory cache of login status and server credentials information.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="data-source.html">dataSource</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">dataSource</span><span class="symbol">: </span><a href="../-login-data-source/index.html"><span class="identifier">LoginDataSource</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="is-logged-in.html">isLoggedIn</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">isLoggedIn</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="server.html">server</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">server</span><span class="symbol">: </span><a href="../../com.example.cashmanager.data.model/-server-data/index.html"><span class="identifier">ServerData</span></a><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="login.html">login</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">login</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.data.LoginRepository$login(kotlin.String, kotlin.String)/username">username</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.example.cashmanager.data.LoginRepository$login(kotlin.String, kotlin.String)/password">password</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-result/index.html"><span class="identifier">Result</span></a><span class="symbol">&lt;</span><a href="../../com.example.cashmanager.data.model/-server-data/index.html"><span class="identifier">ServerData</span></a><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="logout.html">logout</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">logout</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

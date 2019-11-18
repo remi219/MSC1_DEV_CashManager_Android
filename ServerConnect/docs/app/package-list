@@ -1,0 +1,15 @@
+$dokka.format:html
+$dokka.linkExtension:html
+$dokka.location:com.example.cashmanager.ui.login$afterTextChanged(android.widget.EditText, kotlin.Function1((kotlin.String, kotlin.Unit)))com.example.cashmanager.ui.login/android.widget.-edit-text/after-text-changed.html
+com.example.cashmanager
+com.example.cashmanager.data
+com.example.cashmanager.data.dto
+com.example.cashmanager.data.model
+com.example.cashmanager.di
+com.example.cashmanager.service
+com.example.cashmanager.ui.bill
+com.example.cashmanager.ui.cashRegister
+com.example.cashmanager.ui.connectionStatus
+com.example.cashmanager.ui.login
+com.example.cashmanager.ui.payment
+com.example.cashmanager.ui.productPicker

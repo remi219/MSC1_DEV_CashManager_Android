@@ -1,0 +1,147 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CashRegisterActivity - app</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">app</a>&nbsp;/&nbsp;<a href="../index.html">com.example.cashmanager.ui.cashRegister</a>&nbsp;/&nbsp;<a href="./index.html">CashRegisterActivity</a><br/>
+<br/>
+<h1>CashRegisterActivity</h1>
+<code><span class="keyword">class </span><span class="identifier">CashRegisterActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="https://developer.android.com/reference/android/widget/AdapterView/OnItemSelectedListener.html"><span class="identifier">OnItemSelectedListener</span></a></code>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">CashRegisterActivity</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="cart.html">cart</a></p>
+</td>
+<td>
+<code><span class="keyword">var </span><span class="identifier">cart</span><span class="symbol">: </span><a href="../../com.example.cashmanager.data.model/-cart/index.html"><span class="identifier">Cart</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="cart-recycler-view.html">cartRecyclerView</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">cartRecyclerView</span><span class="symbol">: </span><span class="identifier">RecyclerView</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="no-article-textview.html">noArticleTextview</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">noArticleTextview</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/widget/TextView.html"><span class="identifier">TextView</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="payment-spinner.html">paymentSpinner</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">paymentSpinner</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/widget/Spinner.html"><span class="identifier">Spinner</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="proceed-button.html">proceedButton</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">proceedButton</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/widget/TextView.html"><span class="identifier">TextView</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="total-text-view.html">totalTextView</a></p>
+</td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">totalTextView</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/widget/TextView.html"><span class="identifier">TextView</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="on-activity-result.html">onActivityResult</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onActivityResult</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/requestCode">requestCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/resultCode">resultCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/data">data</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-create.html">onCreate</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-create-options-menu.html">onCreateOptionsMenu</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onCreateOptionsMenu</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onCreateOptionsMenu(android.view.Menu)/menu">menu</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/Menu.html"><span class="identifier">Menu</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-item-selected.html">onItemSelected</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onItemSelected</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onItemSelected(android.widget.AdapterView((android.widget.Adapter)), android.view.View, kotlin.Int, kotlin.Long)/parent">parent</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/AdapterView.html"><span class="identifier">AdapterView</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onItemSelected(android.widget.AdapterView((android.widget.Adapter)), android.view.View, kotlin.Int, kotlin.Long)/view">view</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onItemSelected(android.widget.AdapterView((android.widget.Adapter)), android.view.View, kotlin.Int, kotlin.Long)/position">position</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onItemSelected(android.widget.AdapterView((android.widget.Adapter)), android.view.View, kotlin.Int, kotlin.Long)/id">id</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html"><span class="identifier">Long</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-nothing-selected.html">onNothingSelected</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onNothingSelected</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onNothingSelected(android.widget.AdapterView((android.widget.Adapter)))/parent">parent</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/widget/AdapterView.html"><span class="identifier">AdapterView</span></a><span class="symbol">&lt;</span><span class="identifier">*</span><span class="symbol">&gt;</span><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="on-options-item-selected.html">onOptionsItemSelected</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">onOptionsItemSelected</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$onOptionsItemSelected(android.view.MenuItem)/item">item</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/MenuItem.html"><span class="identifier">MenuItem</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="open-product-picker.html">openProductPicker</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">openProductPicker</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$openProductPicker(android.view.View)/v">v</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Open the Product picker activity to add item to cart</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="proceed.html">proceed</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">proceed</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$proceed(android.view.View)/v">v</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Proceed to the next activity, displaying the bill total.
+Transmit the cart content as Serializable to the next activity</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="reset.html">reset</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="identifier" id="com.example.cashmanager.ui.cashRegister.CashRegisterActivity$reset(android.view.View)/v">v</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Reset the content of the cart.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
