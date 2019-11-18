@@ -20,6 +20,7 @@ import com.example.cashmanager.R
 import com.example.cashmanager.ui.cashRegister.CashRegisterActivity
 import com.example.cashmanager.ui.cashRegister.CashRegisterAdapter
 import com.example.cashmanager.ui.payment.PaymentActivity
+import com.example.cashmanager.ui.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -31,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
         val username = findViewById<EditText>(R.id.username)
         val password = findViewById<EditText>(R.id.password)
         val login = findViewById<Button>(R.id.login)
+        val register = findViewById<Button>(R.id.register)
         val loading = findViewById<ProgressBar>(R.id.loading)
 
         loginViewModel = ViewModelProviders.of(this, LoginViewModelFactory())
@@ -86,6 +88,11 @@ class LoginActivity : AppCompatActivity() {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString(), this@LoginActivity)
             }
+        }
+
+        register.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 

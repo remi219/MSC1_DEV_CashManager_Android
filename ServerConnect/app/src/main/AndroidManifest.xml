@@ -20,7 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.register.RegisterActivity"></activity>
+        <activity
+            android:name=".ui.register.RegisterActivity"
+            android:label="@string/action_register"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.bill.BillActivity"
             android:label="@string/bill_activity_title"
@@ -33,7 +36,7 @@
             android:name=".ui.payment.PaymentActivity"
             android:label="@string/payment_activity_title"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.cashRegister.CashRegisterActivity"
             android:label="@string/cash_register_activity_title"
