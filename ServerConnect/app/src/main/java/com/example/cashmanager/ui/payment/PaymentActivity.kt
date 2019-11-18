@@ -7,22 +7,17 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.nfc.NfcAdapter
-import android.nfc.NfcAdapter.ACTION_TECH_DISCOVERED
 import android.nfc.Tag
 import android.nfc.tech.IsoDep
-import android.nfc.tech.Ndef
 import android.nfc.tech.NdefFormatable
 import android.nfc.tech.NfcA
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.example.cashmanager.R
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
-import java.nio.charset.Charset
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -50,7 +45,7 @@ class PaymentActivity : AppCompatActivity(),
     private lateinit var intentFiltersArray : Array<IntentFilter>
     private lateinit var techListsArray : Array<Array<String>>
 
-    private lateinit var nfcAdapter: NfcAdapter
+    private var nfcAdapter: NfcAdapter? = null
     private lateinit var billTextView: TextView
     private lateinit var statusTextView : TextView
     private lateinit var scanChequeBtn : Button
@@ -94,31 +89,6 @@ class PaymentActivity : AppCompatActivity(),
             scanNFCBtn.visibility = View.VISIBLE
             nfcCheck()
         }
-
-        // See https://stackoverflow.com/questions/21307898/how-to-proactive-read-nfc-tag-without-intent
-        // https://developer.android.com/guide/topics/connectivity/nfc/advanced-nfc
-        val intent = Intent(this, this.javaClass)
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-
-        val ndef = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
-        try {
-            // Handles all MIME based dispatches. You should specify only the ones that you need.
-            ndef.addDataType("*/*")
-        } catch (e: IntentFilter.MalformedMimeTypeException) {
-            throw RuntimeException("failed to add MIME type", e);
-        }
-        // Use no intent filters to accept all MIME types
-        intentFiltersArray = Array(1) {ndef}
-
-        // The tech list array can be set to null to accept all types of tag
-        techListsArray = arrayOf(
-            arrayOf(
-                IsoDep::class.java.name,
-                NfcA::class.java.name,
-                NdefFormatable::class.java.name
-            )
-        )
     }
 
     /**
@@ -142,13 +112,13 @@ class PaymentActivity : AppCompatActivity(),
 
     override fun onPause() {
         println("On Pause")
-        nfcAdapter.disableForegroundDispatch(this)
+        nfcAdapter?.disableForegroundDispatch(this)
         super.onPause()
     }
 
     override fun onResume() {
         println("On Resume")
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
+        nfcAdapter?.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
         super.onResume()
     }
 
@@ -185,8 +155,32 @@ class PaymentActivity : AppCompatActivity(),
                 setPositiveButton(R.string.ok){ _, _ ->}
                 show()
             }
-        } else
-            return
+        } else {
+            // See https://stackoverflow.com/questions/21307898/how-to-proactive-read-nfc-tag-without-intent
+            // https://developer.android.com/guide/topics/connectivity/nfc/advanced-nfc
+            val intent = Intent(this, this.javaClass)
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+            val ndef = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
+            try {
+                // Handles all MIME based dispatches. You should specify only the ones that you need.
+                ndef.addDataType("*/*")
+            } catch (e: IntentFilter.MalformedMimeTypeException) {
+                throw RuntimeException("failed to add MIME type", e);
+            }
+            // Use no intent filters to accept all MIME types
+            intentFiltersArray = Array(1) {ndef}
+
+            // The tech list array can be set to null to accept all types of tag
+            techListsArray = arrayOf(
+                arrayOf(
+                    IsoDep::class.java.name,
+                    NfcA::class.java.name,
+                    NdefFormatable::class.java.name
+                )
+            )
+        }
     }
 
 
@@ -203,7 +197,8 @@ class PaymentActivity : AppCompatActivity(),
      * Start NFC scanning
      */
     fun scanNFC(v: View) {
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
+        nfcCheck()
+        nfcAdapter?.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
     }
 
     /**
