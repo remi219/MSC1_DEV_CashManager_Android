@@ -39,6 +39,16 @@
     <string name="status_disconnected">Connection failed</string>
     <string name="api_call_failed">Failed to reach server</string>
 
+    <!-- Register Activity -->
+    <string name="register_title">Register to CashManager</string>
+    <string name="username">Username</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="create_user">Create</string>
+
     <!-- Cash register activity -->
     <string name="cash_register_activity_title">Cash register</string>
     <string name="cart">Your cart</string>
