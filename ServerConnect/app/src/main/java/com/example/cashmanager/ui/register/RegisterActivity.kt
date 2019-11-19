@@ -3,10 +3,7 @@ package com.example.cashmanager.ui.register
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.cashmanager.R
 import com.example.cashmanager.data.dto.UserDTO
 import com.example.cashmanager.service.LoginService
@@ -28,6 +25,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var repeatPasswordEditText : EditText
     private lateinit var errorTextView : TextView
     private lateinit var registerBtn : Button
+    private lateinit var progressView: FrameLayout
 
     private var user : UserDTO = UserDTO()
 
@@ -45,6 +43,7 @@ class RegisterActivity : AppCompatActivity() {
         repeatPasswordEditText = findViewById(R.id.password_repeat_editText)
         errorTextView = findViewById(R.id.error_textView)
         registerBtn = findViewById(R.id.register_btn)
+        progressView = findViewById(R.id.progress_view)
 
         loginService = ServiceBuilder.createService(LoginService::class.java)
     }
@@ -77,17 +76,31 @@ class RegisterActivity : AppCompatActivity() {
         if (!checkRegister())
             return
 
+        enableComponents(false)
         val call = loginService.register(user)
 
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, respose: Response<String>) {
                 Toast.makeText(this@RegisterActivity, resources.getText(R.string.account_created), Toast.LENGTH_SHORT).show()
+                enableComponents(true)
                 finish()
             }
 
             override fun onFailure(call: Call<String>, t: Throwable) {
                 Toast.makeText(this@RegisterActivity, resources.getText(R.string.username_unavailable), Toast.LENGTH_SHORT).show()
+                enableComponents(true)
             }
         })
+    }
+
+    private fun enableComponents(isEnabled: Boolean) {
+        progressView.visibility = if (isEnabled) View.GONE else View.VISIBLE
+        usernameEditText.isEnabled = isEnabled
+        firstNameEditText.isEnabled = isEnabled
+        lastNameEditText.isEnabled = isEnabled
+        emailEditText.isEnabled = isEnabled
+        passwordEditText.isEnabled = isEnabled
+        repeatPasswordEditText.isEnabled = isEnabled
+        registerBtn.isEnabled = isEnabled
     }
 }

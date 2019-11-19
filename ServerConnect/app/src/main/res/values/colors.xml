@@ -6,4 +6,5 @@
     <color name="colorSuccess">#4CAF50</color>
     <color name="colorFailure">#F44336</color>
     <color name="colorPending">#FF9800</color>
+    <color name="bg_color">#F5FAF5</color>
 </resources>
