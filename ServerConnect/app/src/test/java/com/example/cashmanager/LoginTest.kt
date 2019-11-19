@@ -22,17 +22,17 @@ class LoginTest {
 
     @Test
     fun testLoginFailWrongIp() {
-        val ipTest = "wrongip"
+        val username = "invalid_username"
         val pwdTest = "pwdTest"
-        val res : Result<ServerData> = lds.login(ipTest, pwdTest)
+        val res : Result<ServerData> = lds.login(username, pwdTest)
         assertNotNull(res)
     }
 
     @Test
     fun testLoginFailToShortPwd() {
-        val ipTest = "120.120.10.10"
+        val username = "user@test.com"
         val pwdTest = "123"
-        val res : Result<ServerData> = lds.login(ipTest, pwdTest)
+        val res : Result<ServerData> = lds.login(username, pwdTest)
         assertNotNull(res)
     }
 }

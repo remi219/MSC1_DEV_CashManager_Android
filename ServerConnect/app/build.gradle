@@ -26,6 +26,9 @@ android {
         outputFormat = 'html'
         outputDirectory = "../docs"
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
