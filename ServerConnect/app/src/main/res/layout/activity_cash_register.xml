@@ -122,13 +122,14 @@
 
         <Button
             android:id="@+id/reset_cart_btn"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/bg_color"
             android:onClick="reset"
             android:text="@string/reset"
-            android:theme="@style/RedButton"
-            style="@style/Widget.AppCompat.Button.Colored"/>
+            android:theme="@style/RedButton" />
 
         <Button
             android:id="@+id/proceed_btn"

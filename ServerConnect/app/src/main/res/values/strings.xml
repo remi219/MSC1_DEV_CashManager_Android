@@ -78,7 +78,7 @@
     <!-- Payment activity-->
     <string name="nfc_payment">NFC payment</string>
     <string name="nfc_not_supported">NFC is not supported on this device, go back and change your payment method</string>
-    <string name="nfc_not_enable">Please enable NFC in your device settings to proceed</string>
+    <string name="nfc_not_enable">Please enable NFC in your device settings to proceed. Then press the Scan NFC button.</string>
     <string name="payment_activity_title">Payment</string>
     <string name="status">Status:</string>
     <string name="pending_payment">Awaiting payment</string>
@@ -95,8 +95,6 @@
     <string name="scan_cheque_btn">Scan cheque</string>
     <string name="scan_card_btn">Scan card</string>
     <string name="api_connection_failed">Failed to connect to server</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="NFC_available">NFC is available. Approach your card to the device.</string>
 
 </resources>

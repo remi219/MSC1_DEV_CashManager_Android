@@ -81,7 +81,7 @@ class RegisterActivity : AppCompatActivity() {
 
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, respose: Response<String>) {
-                Toast.makeText(this@RegisterActivity, resources.getText(R.string.account_created), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@RegisterActivity, resources.getText(R.string.account_created), Toast.LENGTH_LONG).show()
                 enableComponents(true)
                 finish()
             }

@@ -203,7 +203,10 @@ class PaymentActivity : AppCompatActivity(),
      */
     fun scanNFC(v: View) {
         nfcCheck()
-        nfcAdapter?.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
+        if (nfcEnabled) {
+            Toast.makeText(this, resources.getText(R.string.NFC_available), Toast.LENGTH_SHORT).show()
+            nfcAdapter?.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
+        }
     }
 
     /**
