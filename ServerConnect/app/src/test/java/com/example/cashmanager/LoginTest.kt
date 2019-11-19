@@ -12,10 +12,10 @@ class LoginTest {
 
     @Test
     fun testLoginSuccess() {
-        val ipTest = "120.120.10.10"
+        val username = "user@test.com"
         val pwdTest = "pwdTest"
 
-        val res : Result<ServerData> = lds.login(ipTest, pwdTest)
+        val res : Result<ServerData> = lds.login(username, pwdTest)
 
         assertNotNull(res)
     }
