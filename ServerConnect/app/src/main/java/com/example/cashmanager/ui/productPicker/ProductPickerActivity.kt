@@ -12,14 +12,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.Product
-import com.example.cashmanager.service.PaymentService
 import com.example.cashmanager.service.ProductService
 import com.example.cashmanager.service.ServiceBuilder
-import org.koin.android.ext.android.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.Serializable
+import androidx.recyclerview.widget.DividerItemDecoration
+
+
 
 class ProductPickerActivity : AppCompatActivity() {
 
@@ -45,6 +46,13 @@ class ProductPickerActivity : AppCompatActivity() {
         productAPI = ServiceBuilder.createService(ProductService::class.java, prefs.getString("token", ""))
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
+
+        productRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
         loadProductList()
     }

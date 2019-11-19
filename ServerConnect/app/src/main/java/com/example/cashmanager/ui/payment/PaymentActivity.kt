@@ -56,13 +56,12 @@ class PaymentActivity : AppCompatActivity(),
     private lateinit var cart : Cart
     private lateinit var paymentMode : PaymentMode
     private lateinit var paymentAPI : PaymentService
+    private var nfcEnabled = false
     private val activity = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment)
-
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 
         billTextView = findViewById(R.id.bill_total)
         statusTextView = findViewById(R.id.payment_status_label)
@@ -112,13 +111,15 @@ class PaymentActivity : AppCompatActivity(),
 
     override fun onPause() {
         println("On Pause")
-        nfcAdapter?.disableForegroundDispatch(this)
+        if (nfcEnabled)
+            nfcAdapter?.disableForegroundDispatch(this)
         super.onPause()
     }
 
     override fun onResume() {
         println("On Resume")
-        nfcAdapter?.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
+        if (nfcEnabled)
+            nfcAdapter?.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
         super.onResume()
     }
 
@@ -133,10 +134,12 @@ class PaymentActivity : AppCompatActivity(),
      * Check if nfc is available and enabled
      */
     private fun nfcCheck() {
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         val nfcAndroidAdapter = NfcAdapter.getDefaultAdapter(this)
 
         if (nfcAndroidAdapter == null) {
             val builder = AlertDialog.Builder(this)
+            nfcEnabled = false
             with(builder)
             {
                 setIcon(android.R.drawable.ic_dialog_alert)
@@ -147,6 +150,7 @@ class PaymentActivity : AppCompatActivity(),
             }
         } else if (!nfcAndroidAdapter.isEnabled) {
             val builder = AlertDialog.Builder(this)
+            nfcEnabled = false
             with(builder)
             {
                 setIcon(android.R.drawable.ic_dialog_alert)
@@ -156,6 +160,7 @@ class PaymentActivity : AppCompatActivity(),
                 show()
             }
         } else {
+            nfcEnabled = true
             // See https://stackoverflow.com/questions/21307898/how-to-proactive-read-nfc-tag-without-intent
             // https://developer.android.com/guide/topics/connectivity/nfc/advanced-nfc
             val intent = Intent(this, this.javaClass)
