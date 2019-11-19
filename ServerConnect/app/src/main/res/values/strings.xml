@@ -41,17 +41,19 @@
 
     <!-- Register Activity -->
     <string name="register_title">Register to CashManager</string>
-    <string name="username">Username</string>
+    <string name="username">Username*</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="repeat_password">Repeat password</string>
+    <string name="password">Password*</string>
+    <string name="repeat_password">Repeat password*</string>
     <string name="create_user">Create</string>
     <string name="error_no_username">An username is required</string>
     <string name="error_already_username">Please choose another username</string>
     <string name="error_no_password">Enter a password in both fields</string>
     <string name="error_repeat_password">Passwords do not matches</string>
+    <string name="account_created">Account created</string>
+    <string name="username_unavailable">Username is not available</string>
 
     <!-- Cash register activity -->
     <string name="cash_register_activity_title">Cash register</string>

@@ -6,15 +6,18 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.example.cashmanager.R
 import com.example.cashmanager.data.dto.UserDTO
 import com.example.cashmanager.service.LoginService
 import com.example.cashmanager.service.ServiceBuilder
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Activity used for the creation of a new user account
+ */
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var usernameEditText : EditText
@@ -22,7 +25,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var lastNameEditText : EditText
     private lateinit var emailEditText : EditText
     private lateinit var passwordEditText : EditText
-    private lateinit var repeatPaswordEditText : EditText
+    private lateinit var repeatPasswordEditText : EditText
     private lateinit var errorTextView : TextView
     private lateinit var registerBtn : Button
 
@@ -38,8 +41,8 @@ class RegisterActivity : AppCompatActivity() {
         firstNameEditText = findViewById(R.id.firstname_textview)
         lastNameEditText = findViewById(R.id.lastname_textview)
         emailEditText = findViewById(R.id.email_editText)
-        passwordEditText = findViewById(R.id.email_editText)
-        repeatPaswordEditText = findViewById(R.id.password_repeat_editText)
+        passwordEditText = findViewById(R.id.password_editText)
+        repeatPasswordEditText = findViewById(R.id.password_repeat_editText)
         errorTextView = findViewById(R.id.error_textView)
         registerBtn = findViewById(R.id.register_btn)
 
@@ -55,12 +58,13 @@ class RegisterActivity : AppCompatActivity() {
             errorTextView.text = resources.getText(R.string.error_no_username)
             return false
         }
-        else if (passwordEditText.text.isNullOrBlank() || repeatPaswordEditText.text.isNullOrBlank()) {
+        else if (passwordEditText.text.isNullOrBlank() || repeatPasswordEditText.text.isNullOrBlank()) {
             errorTextView.text = resources.getText(R.string.error_no_password)
             return false
         }
-        else if (passwordEditText.text != repeatPaswordEditText.text) {
+        else if (repeatPasswordEditText.text.toString() != passwordEditText.text.toString()) {
             errorTextView.text = resources.getText(R.string.error_repeat_password)
+            return false
         }
         errorTextView.text = ""
         return true
@@ -73,16 +77,16 @@ class RegisterActivity : AppCompatActivity() {
         if (!checkRegister())
             return
 
-
         val call = loginService.register(user)
 
-        call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, respose: Response<ResponseBody>) {
-                println("test")
+        call.enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, respose: Response<String>) {
+                Toast.makeText(this@RegisterActivity, resources.getText(R.string.account_created), Toast.LENGTH_SHORT).show()
+                finish()
             }
 
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                println("test")
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Toast.makeText(this@RegisterActivity, resources.getText(R.string.username_unavailable), Toast.LENGTH_SHORT).show()
             }
         })
     }

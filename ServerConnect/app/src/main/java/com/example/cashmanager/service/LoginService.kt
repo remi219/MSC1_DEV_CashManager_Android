@@ -16,5 +16,5 @@ interface LoginService {
     fun login(@Body login: LoginDTO) : Call<String>
 
     @POST("register")
-    fun register(@Body user: UserDTO) : Call<ResponseBody>
+    fun register(@Body user: UserDTO) : Call<String>
 }
