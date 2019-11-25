@@ -9,6 +9,7 @@ import android.net.Uri
 import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.nfc.tech.IsoDep
+import android.nfc.tech.Ndef
 import android.nfc.tech.NdefFormatable
 import android.nfc.tech.NfcA
 import android.os.Bundle
@@ -65,7 +66,7 @@ class PaymentActivity : AppCompatActivity(),
 
         billTextView = findViewById(R.id.bill_total)
         statusTextView = findViewById(R.id.payment_status_label)
-        scanChequeBtn = findViewById(R.id.scan_cheque_btn)
+        scanChequeBtn = findViewById(R.id.scan_barcode_btn)
         scanNFCBtn = findViewById(R.id.scan_nfc_btn)
         backToRegisterBtn = findViewById(R.id.back_register_btn)
         cancelOpBtn = findViewById(R.id.cancel_op_btn)
@@ -124,14 +125,15 @@ class PaymentActivity : AppCompatActivity(),
     }
 
     override fun onNewIntent(intent: Intent) {
-        println("Foreground dispatch")
+        println("Foreground dispatch detected")
         val nfcTag : Tag?  = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
         println(nfcTag.toString())
+
         super.onNewIntent(intent)
     }
 
     /**
-     * Check if nfc is available and enabled
+     * Check if nfc is available and enabled, then initialize NFC filter if necessary
      */
     private fun nfcCheck() {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
@@ -159,7 +161,7 @@ class PaymentActivity : AppCompatActivity(),
                 setPositiveButton(R.string.ok){ _, _ ->}
                 show()
             }
-        } else {
+        } else if (!nfcEnabled) {
             nfcEnabled = true
             // See https://stackoverflow.com/questions/21307898/how-to-proactive-read-nfc-tag-without-intent
             // https://developer.android.com/guide/topics/connectivity/nfc/advanced-nfc
@@ -182,9 +184,14 @@ class PaymentActivity : AppCompatActivity(),
                 arrayOf(
                     IsoDep::class.java.name,
                     NfcA::class.java.name,
-                    NdefFormatable::class.java.name
+                    NdefFormatable::class.java.name,
+                    Ndef::class.java.name
                 )
             )
+            Toast.makeText(this, resources.getText(R.string.NFC_available), Toast.LENGTH_SHORT).show()
+        }
+        else {
+            Toast.makeText(this, resources.getText(R.string.NFC_available), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -192,7 +199,7 @@ class PaymentActivity : AppCompatActivity(),
     /***
      * Start scanning activity
      */
-    fun scanQRcode(v: View) {
+    fun scanQRcode(v : View) {
         run {
             IntentIntegrator(this@PaymentActivity).initiateScan()
         }
@@ -201,12 +208,8 @@ class PaymentActivity : AppCompatActivity(),
     /**
      * Start NFC scanning
      */
-    fun scanNFC(v: View) {
+    fun scanNFC(v : View) {
         nfcCheck()
-        if (nfcEnabled) {
-            Toast.makeText(this, resources.getText(R.string.NFC_available), Toast.LENGTH_SHORT).show()
-            nfcAdapter?.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray)
-        }
     }
 
     /**

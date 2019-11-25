@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +20,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.Serializable
 import androidx.recyclerview.widget.DividerItemDecoration
-
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 
 
 class ProductPickerActivity : AppCompatActivity() {
@@ -28,8 +30,11 @@ class ProductPickerActivity : AppCompatActivity() {
     var fullCart: Cart = Cart()
     private lateinit var productAPI : ProductService
 
-    lateinit var productRecyclerView : RecyclerView
+    private lateinit var productRecyclerView : RecyclerView
     lateinit var progressBar : ProgressBar
+    private lateinit var scanBtn : Button
+    private lateinit var cancelBtn : Button
+    private lateinit var addToCartButton : Button
 
     lateinit var cart: Cart
     lateinit var availableProducts : MutableList<Product>
@@ -41,6 +46,9 @@ class ProductPickerActivity : AppCompatActivity() {
 
         productRecyclerView = findViewById(R.id.productPicker_recyclerView)
         progressBar = findViewById(R.id.progressBar)
+        scanBtn = findViewById(R.id.scan_barcode_btn)
+        cancelBtn = findViewById(R.id.cancelButton)
+        addToCartButton = findViewById(R.id.addToCartButton)
 
         val prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
         productAPI = ServiceBuilder.createService(ProductService::class.java, prefs.getString("token", ""))
@@ -58,10 +66,57 @@ class ProductPickerActivity : AppCompatActivity() {
     }
 
     /**
+     * On qr code read activity reader
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
+        if(result != null){
+            println("Contents: " + result.contents + " " + result.contents.toIntOrNull())
+            if(result.contents.toIntOrNull() != null){
+                try {
+                    addProduct(result.contents.toInt())
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                    Toast.makeText(this, resources.getString(R.string.invalid_barcode), Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, resources.getString(R.string.invalid_barcode), Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    private fun loading(isLoading: Boolean) {
+        if (isLoading) {
+            progressBar.visibility = View.VISIBLE
+            scanBtn.isEnabled = false
+            cancelBtn.isEnabled = false
+            addToCartButton.isEnabled = false
+        } else {
+            progressBar.visibility = View.GONE
+            scanBtn.isEnabled = true
+            cancelBtn.isEnabled = true
+            addToCartButton.isEnabled = true
+        }
+    }
+
+    /***
+     * Start scanning activity
+     */
+    fun scanQRcode(v : View) {
+        run {
+            IntentIntegrator(this@ProductPickerActivity).initiateScan()
+        }
+    }
+
+    /**
      * Load the list of available products from the API
      */
-    fun loadProductList() {
-        progressBar.visibility = View.VISIBLE
+    private fun loadProductList() {
+        loading(true)
         val call = productAPI.availableProducts()
 
         call.enqueue(object : Callback<List<Product>> {
@@ -70,7 +125,7 @@ class ProductPickerActivity : AppCompatActivity() {
                 for (product in availableProducts)
                     fullCart.products.add(Pair(product, 0))
                 setProductAdapter()
-                progressBar.visibility = View.GONE
+                loading(false)
             }
 
             override fun onFailure(call: Call<List<Product>>, t: Throwable) {
@@ -95,7 +150,7 @@ class ProductPickerActivity : AppCompatActivity() {
                     fullCart.products.add(Pair(product, 0))
                 setProductAdapter()
                 Toast.makeText(activity, "API unavailable, loading mocked products instead", Toast.LENGTH_SHORT).show()
-                progressBar.visibility = View.GONE
+                loading(false)
             }
         })
     }
@@ -107,6 +162,26 @@ class ProductPickerActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(activity)
             adapter = ProductPickerAdapter(fullCart)
         }
+    }
+
+    /**
+     * Add a product from a barcode
+     * @param productId id collected from barcode
+     */
+    private fun addProduct(productId: Int) {
+        for (i in 0 until fullCart.size) {
+            if (productId == fullCart.products[i].first.id) {
+                fullCart.addProduct(i)
+                // Refresh recycler view
+                productRecyclerView.adapter?.notifyItemChanged(i)
+                Toast.makeText(this,
+                    resources.getString(R.string.added_product, fullCart.products[i].first.description),
+                    Toast.LENGTH_SHORT)
+                    .show()
+                return
+            }
+        }
+        Toast.makeText(this, resources.getString(R.string.product_not_found), Toast.LENGTH_SHORT).show()
     }
 
     /**
