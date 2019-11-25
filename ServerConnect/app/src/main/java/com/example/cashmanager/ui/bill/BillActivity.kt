@@ -2,6 +2,7 @@ package com.example.cashmanager.ui.bill
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -28,7 +29,6 @@ class BillActivity : AppCompatActivity() {
 
     lateinit var cart : Cart
     lateinit var paymentMode : PaymentMode
-    private val activity = this
     private lateinit var orderAPI : OrderService
 
     lateinit var cartRecyclerView : RecyclerView
@@ -37,6 +37,8 @@ class BillActivity : AppCompatActivity() {
     lateinit var nbItemTextView : TextView
     lateinit var progressView : FrameLayout
     lateinit var goToPaymentBtn : Button
+
+    lateinit var prefs : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,7 @@ class BillActivity : AppCompatActivity() {
         progressView = findViewById(R.id.progress_view)
         goToPaymentBtn = findViewById(R.id.proceed_btn)
 
-        val prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
+        prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
         orderAPI = ServiceBuilder.createService(OrderService::class.java, prefs.getString("token", ""))
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
@@ -63,13 +65,15 @@ class BillActivity : AppCompatActivity() {
         totalTextView.text = resources.getString(R.string.bill_total, format.format(cart.billTotal))
         nbItemTextView.text = resources.getQuantityString(R.plurals.items, cart.products.size, cart.products.size)
 
-        val activity = this
         cartRecyclerView.apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = BillAdapter(cart.products, activity)
+            layoutManager = LinearLayoutManager(this@BillActivity)
+            adapter = BillAdapter(cart.products, this@BillActivity)
         }
     }
 
+    /**
+     * Proceed to the payment page
+     */
     fun goToPayment(v: View) {
         val intent = Intent(this, PaymentActivity::class.java)
         intent.putExtra("cart", cart)
@@ -78,9 +82,23 @@ class BillActivity : AppCompatActivity() {
 
         progressView.visibility = View.VISIBLE
 
-        orderAPI.createUserOrder(1, OrderDTO()).enqueue(object : Callback<OrderDTO> {
+        sendOrder(intent)
+    }
+
+    /**
+     * Send the order the API and send order id to the next page
+     */
+    private fun sendOrder(intent: Intent) {
+        val userId  = prefs.getString("token", "") ?: ""
+        val order = OrderDTO(cart)
+
+        if (userId.isEmpty())
+            return
+
+        orderAPI.createUserOrder(userId, order).enqueue(object : Callback<OrderDTO> {
             override fun onResponse(call: Call<OrderDTO>, response: Response<OrderDTO>) {
                 startActivity(intent)
+                intent.putExtra("orderId", response.body()?.id ?: 0)
                 progressView.visibility = View.GONE
                 goToPaymentBtn.isEnabled = true
             }
@@ -88,7 +106,7 @@ class BillActivity : AppCompatActivity() {
             override fun onFailure(call: Call<OrderDTO>, t: Throwable) {
                 startActivity(intent)
                 progressView.visibility = View.GONE
-                Toast.makeText(activity, "Could not make order", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@BillActivity, "Could not make order", Toast.LENGTH_SHORT).show()
                 goToPaymentBtn.isEnabled = true
             }
         })

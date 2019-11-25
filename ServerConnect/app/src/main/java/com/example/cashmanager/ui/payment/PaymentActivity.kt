@@ -22,6 +22,7 @@ import com.google.zxing.integration.android.IntentResult
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import com.example.cashmanager.data.dto.OrderStatusDTO
 import com.example.cashmanager.data.dto.PaymentCardDTO
 import com.example.cashmanager.data.dto.PaymentChequeDTO
 import com.example.cashmanager.data.model.Cart
@@ -55,6 +56,7 @@ class PaymentActivity : AppCompatActivity(),
     private lateinit var cancelOpBtn : Button
 
     private lateinit var cart : Cart
+    private var orderId : Int = 0
     private lateinit var paymentMode : PaymentMode
     private lateinit var paymentAPI : PaymentService
     private var nfcEnabled = false
@@ -75,6 +77,7 @@ class PaymentActivity : AppCompatActivity(),
         paymentAPI = ServiceBuilder.createService(PaymentService::class.java, prefs.getString("token", ""))
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
+        orderId = intent.getIntExtra("order", 0)
 
         val format = NumberFormat.getCurrencyInstance()
         billTextView.text = resources.getString(R.string.bill_total, format.format(cart.billTotal))
@@ -243,7 +246,7 @@ class PaymentActivity : AppCompatActivity(),
 
         // Call to the server
         try {
-            val call = paymentAPI.postChequePayment(PaymentChequeDTO(chequeData.id, cart.billTotal))
+            val call = paymentAPI.postChequePayment(PaymentChequeDTO(chequeData.id, cart.billTotal, orderId))
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>,
@@ -280,7 +283,7 @@ class PaymentActivity : AppCompatActivity(),
      * @param content: Cheque content
      */
     private fun sendCardPayment(content : Any) {
-        val call = paymentAPI.postNFCPayment(PaymentCardDTO("toto"))
+        val call = paymentAPI.postNFCPayment(PaymentCardDTO("toto", orderId))
 
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

@@ -1,21 +1,34 @@
 package com.example.cashmanager.data.dto
 
+import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.Product
 import java.util.*
 
-class OrderDTO {
-    private val id: Int? = null
+/***
+ * DTO for order object
+ */
+class OrderDTO(cart: Cart) {
+    var id: Int? = null
 
-    private val total: Double? = null
+    var total: Double? = null
 
-    private val poid: Double? = null
+    var poid: Double? = null
 
-    private val payementDate: Date? = null
+    var payementDate: Date? = null
 
-    private val orderStatusDto: OrderStatusDTO? = null
+    var orderStatusDto: OrderStatusDTO? = null
 
-    private val payementDto: PaymentDTO? = null
+    var payementDto: PaymentDTO? = null
 
-    private val productDtos: List<Product>? = null
+    var productDtos: MutableList<Product>? = null
+
+    init {
+        total = cart.billTotal
+        orderStatusDto = OrderStatusDTO("pending")
+        productDtos = mutableListOf()
+        for (products in cart.products) {
+            productDtos?.add(products.second, products.first)
+        }
+    }
 }
 

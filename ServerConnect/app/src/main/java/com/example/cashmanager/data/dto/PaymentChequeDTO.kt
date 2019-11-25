@@ -7,5 +7,6 @@ import java.io.Serializable
  * Cheque information to be sent to the API
  */
 class PaymentChequeDTO (@SerializedName("cheque_id") val id: String,
-                        @SerializedName("cheque_value") val value: Double
+                        @SerializedName("cheque_value") val value: Double,
+                        @SerializedName("order_id") val orderId: Int
     ) : Serializable
