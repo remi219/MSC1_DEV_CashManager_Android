@@ -1,0 +1,15 @@
+version: "2.2"
+
+services:
+  android:
+    build: ./ServerConnect
+    volumes:
+    - apk-debug: app/build/outputs/apk/debug/
+  # Shared volumn with front
+  # front:
+  #   volumes:
+  #   - apk-debug: apk-debug
+
+
+volumes:
+  apk-debug:
