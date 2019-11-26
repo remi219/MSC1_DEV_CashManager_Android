@@ -1,138 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    tools:context=".ui.payment.PaymentActivity">
+    android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/connection"
-        android:name="com.example.cashmanager.ui.connectionStatus.ConnectionStatusFragment"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        tools:context=".ui.payment.PaymentActivity">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/back_register_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connection">
-
-        <LinearLayout
+        <fragment
+            android:id="@+id/connection"
+            android:name="com.example.cashmanager.ui.connectionStatus.ConnectionStatusFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/bill_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="@string/bill_total"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/back_register_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/connection">
 
-            <FrameLayout
-                android:id="@+id/frame_layout"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/scan_barcode_btn"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                <TextView
+                    android:id="@+id/bill_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_marginTop="16dp"
-                    android:drawableStart="@drawable/ic_qrcode"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:onClick="scanQRcode"
-                    android:text="@string/scan_cheque_btn"
-                    android:theme="@style/BlueButton" />
+                    android:text="@string/bill_total"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/scan_nfc_btn"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                <FrameLayout
+                    android:id="@+id/frame_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/scan_barcode_btn"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_marginTop="16dp"
+                        android:drawableStart="@drawable/ic_qrcode"
+                        android:gravity="center"
+                        android:onClick="scanQRcode"
+                        android:text="@string/scan_cheque_btn"
+                        android:theme="@style/BlueButton" />
+
+                    <Button
+                        android:id="@+id/scan_nfc_btn"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:drawableStart="@drawable/ic_nfc"
+                        android:gravity="center"
+                        android:onClick="scanNFC"
+                        android:text="@string/scan_card_btn"
+                        android:theme="@style/BlueButton" />
+                </FrameLayout>
+
+                <View
+                    android:id="@+id/separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="14dp"
+                    android:background="@android:color/darker_gray"
+                    android:scrollbarSize="1dp"
+                    app:layout_constraintTop_toBottomOf="@+id/cart_textView" />
+
+                <TextView
+                    android:id="@+id/status_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:drawableStart="@drawable/ic_nfc"
-                    android:gravity="center"
-                    android:onClick="scanNFC"
-                    android:text="@string/scan_card_btn"
-                    android:theme="@style/BlueButton" />
-            </FrameLayout>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/status"
+                    android:textSize="24sp" />
 
-            <View
-                android:id="@+id/separator"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="14dp"
-                android:background="@android:color/darker_gray"
-                android:scrollbarSize="1dp"
-                app:layout_constraintTop_toBottomOf="@+id/cart_textView" />
+                <TextView
+                    android:id="@+id/payment_status_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/colorPending"
+                    android:padding="10dp"
+                    android:text="@string/pending_payment"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="30sp"
+                    android:theme="@style/RedButton" />
 
-            <TextView
-                android:id="@+id/status_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:text="@string/status"
-                android:textSize="24sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/payment_status_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="4dp"
-                android:background="@color/colorPending"
-                android:padding="10dp"
-                android:text="@string/pending_payment"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="30sp"
-                android:theme="@style/RedButton" />
+        <Button
+            android:id="@+id/back_register_btn"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="backToRegister"
+            android:text="@string/back_to_register_btn"
+            android:theme="@style/GreenButton"
+            app:layout_constraintBottom_toTopOf="@+id/cancel_op_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        <Button
+            android:id="@+id/cancel_op_btn"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="cancelOperation"
+            android:text="@string/cancel_op_btn"
+            android:theme="@style/RedButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/back_register_btn"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+    android:id="@+id/progress_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B0FFFFFF"
+    android:visibility="gone">
+    <ProgressBar
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:onClick="backToRegister"
-        android:text="@string/back_to_register_btn"
-        android:theme="@style/GreenButton"
-        app:layout_constraintBottom_toTopOf="@+id/cancel_op_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_gravity="center"/>
+    </FrameLayout>
 
-    <Button
-        android:id="@+id/cancel_op_btn"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="cancelOperation"
-        android:text="@string/cancel_op_btn"
-        android:theme="@style/RedButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

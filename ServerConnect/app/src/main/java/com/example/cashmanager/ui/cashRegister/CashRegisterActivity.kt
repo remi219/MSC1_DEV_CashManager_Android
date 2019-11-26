@@ -42,9 +42,12 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
     lateinit var noArticleTextview : TextView
     lateinit var cartRecyclerView : RecyclerView
-    lateinit var totalTextView: TextView
+    lateinit var totalTextView : TextView
     lateinit var proceedButton : TextView
-    lateinit var paymentSpinner: Spinner
+    lateinit var paymentSpinner : Spinner
+    lateinit var progressView : FrameLayout
+    lateinit var resetBtn : Button
+    lateinit var proceedBtn : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +58,9 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         totalTextView = findViewById(R.id.total_textview)
         proceedButton = findViewById(R.id.proceed_btn)
         paymentSpinner = findViewById(R.id.payment_spinner)
+        progressView = findViewById(R.id.progress_view)
+        resetBtn = findViewById(R.id.reset_cart_btn)
+        proceedBtn = findViewById(R.id.proceed_btn)
 
         paymentModeTitle = listOf(resources.getString(R.string.payment_mode_cheque), resources.getString(R.string.payment_mode_nfc))
 
@@ -132,6 +138,22 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     }
 
     /**
+     * Set the page as loading
+     * @param isLoading If the page is busy
+     */
+    private fun loading(isLoading: Boolean) {
+        if (isLoading) {
+            progressView.visibility = View.VISIBLE
+            resetBtn.isEnabled = false
+            proceedBtn.isEnabled = false
+        } else {
+            progressView.visibility = View.GONE
+            resetBtn.isEnabled = true
+            proceedBtn.isEnabled = true
+        }
+    }
+
+    /**
      * Open the Product picker activity to add item to cart
      */
     fun openProductPicker(v: View) {
@@ -173,13 +195,13 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             return
         }
 
-        val intent = Intent(this, BillActivity::class.java)
+        loading(true)
 
+        val intent = Intent(this, BillActivity::class.java)
         intent.putExtra("cart", cart as Serializable)
         intent.putExtra("paymentMode", paymentMode)
 
         val userId  = prefs.getInt("userId", 0)
-
 //        if (userId.isEmpty()) {
 //            loading(false)
 //            return
@@ -190,16 +212,17 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         for (p in cart.products)
             products.add(ProductWrapperDTO(p.first.id, p.second))
 
-        val call = productAPI.addProducts(userId, products)
-
-        call.enqueue(object : Callback<ResponseBody> {
+        productAPI.addProducts(userId, products).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                loading(false)
                 startActivity(intent)
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Toast.makeText(this@CashRegisterActivity, R.string.cart_saving_failed, Toast.LENGTH_SHORT).show()
                 t.printStackTrace()
+                loading(false)
+                // Todo: stay on page if failed
                 startActivity(intent)
             }
         })

@@ -18,7 +18,7 @@ interface ProductService {
     fun availableProducts(): Call<List<Product>>
 
     /**
-     * Post the list of products in the user cart
+     * Add the list of products in the user cart
      */
     @POST("/product/{id}")
     fun addProducts(@Path("id") userId: Int, @Body products : List<ProductWrapperDTO>) : Call<ResponseBody>

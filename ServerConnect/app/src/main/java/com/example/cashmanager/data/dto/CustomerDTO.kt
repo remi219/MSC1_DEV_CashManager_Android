@@ -1,0 +1,15 @@
+package com.example.cashmanager.data.dto
+
+class CustomerDTO {
+    private val id: Int? = null
+
+    private val username: String? = null
+
+    private val password: String? = null
+
+    private val Email: String? = null
+
+    private val firstName: String? = null
+
+    private val lastName: String? = null
+}

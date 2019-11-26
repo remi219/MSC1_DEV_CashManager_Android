@@ -15,6 +15,7 @@ import android.nfc.tech.NfcA
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
 import com.example.cashmanager.R
 import com.google.zxing.integration.android.IntentIntegrator
@@ -27,6 +28,7 @@ import com.example.cashmanager.data.dto.PaymentChequeDTO
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.ChequeData
 import com.example.cashmanager.data.model.PaymentMode
+import com.example.cashmanager.service.OrderService
 import com.example.cashmanager.service.PaymentService
 import com.example.cashmanager.service.ServiceBuilder
 import com.example.cashmanager.ui.connectionStatus.ConnectionStatusFragment
@@ -53,11 +55,13 @@ class PaymentActivity : AppCompatActivity(),
     private lateinit var scanNFCBtn : Button
     private lateinit var backToRegisterBtn : Button
     private lateinit var cancelOpBtn : Button
+    private lateinit var progressView : FrameLayout
 
     private lateinit var cart : Cart
     private var orderId : Int = 0
     private lateinit var paymentMode : PaymentMode
     private lateinit var paymentAPI : PaymentService
+    private lateinit var orderAPI : OrderService
     private var nfcEnabled = false
     private val activity = this
 
@@ -71,9 +75,11 @@ class PaymentActivity : AppCompatActivity(),
         scanNFCBtn = findViewById(R.id.scan_nfc_btn)
         backToRegisterBtn = findViewById(R.id.back_register_btn)
         cancelOpBtn = findViewById(R.id.cancel_op_btn)
+        progressView = findViewById(R.id.progress_view)
 
         val prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
         paymentAPI = ServiceBuilder.createService(PaymentService::class.java, prefs.getString("token", ""))
+        orderAPI = ServiceBuilder.createService(OrderService::class.java, prefs.getString("token", ""))
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
         orderId = intent.getIntExtra("order", 0)
@@ -132,6 +138,24 @@ class PaymentActivity : AppCompatActivity(),
         println(nfcTag.toString())
 
         super.onNewIntent(intent)
+    }
+
+    /**
+     * Set the page as loading
+     * @param isLoading If the page is busy
+     */
+    private fun loading(isLoading: Boolean) {
+        if (isLoading) {
+            progressView.visibility = View.VISIBLE
+            scanChequeBtn.isEnabled = false
+            scanNFCBtn.isEnabled = false
+            cancelOpBtn.isEnabled = false
+        } else {
+            progressView.visibility = View.GONE
+            scanChequeBtn.isEnabled = true
+            scanNFCBtn.isEnabled = true
+            cancelOpBtn.isEnabled = true
+        }
     }
 
     /**
@@ -219,6 +243,7 @@ class PaymentActivity : AppCompatActivity(),
      * @param content: Cheque content
      */
     private fun sendChequePayment(content : String) {
+        loading(true)
         statusTextView.text = resources.getString(R.string.pending_authorization)
         statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorPending))
         val chequeData : ChequeData?
@@ -232,6 +257,7 @@ class PaymentActivity : AppCompatActivity(),
             println(ex.message)
             statusTextView.text = resources.getText(R.string.cheque_unreadable)
             statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorFailure))
+            loading(false)
             return
         }
 
@@ -240,6 +266,7 @@ class PaymentActivity : AppCompatActivity(),
             val format = NumberFormat.getCurrencyInstance()
             statusTextView.text = resources.getString(R.string.cheque_invalid_value, format.format(chequeData.value))
             statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorFailure))
+            loading(false)
             return
         }
 
@@ -247,13 +274,12 @@ class PaymentActivity : AppCompatActivity(),
         try {
             val call = paymentAPI.postChequePayment(PaymentChequeDTO(chequeData.id, cart.billTotal, orderId))
             call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
                 ) {
                     statusTextView.text = resources.getString(R.string.cheque_authorized)
                     statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorSuccess))
                     backToRegisterBtn.isEnabled = true
+                    loading(false)
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -264,6 +290,7 @@ class PaymentActivity : AppCompatActivity(),
                         resources.getString(R.string.cheque_refused),
                         Toast.LENGTH_SHORT
                     ).show()
+                    loading(false)
                 }
             })
         } catch (ex : Exception) {
@@ -275,24 +302,28 @@ class PaymentActivity : AppCompatActivity(),
             statusTextView.text = resources.getText(R.string.api_connection_failed)
             statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorFailure))
         }
+        loading(false)
     }
 
     /**
      * Send the scanned NFC card data to the payment API
-     * @param content: Cheque content
+     * @param cardId: Card id
      */
-    private fun sendCardPayment(content : Any) {
-        val call = paymentAPI.postNFCPayment(PaymentCardDTO("toto", orderId))
+    private fun sendCardPayment(cardId : String) {
+        val call = paymentAPI.postNFCPayment(PaymentCardDTO(cardId, orderId))
 
+        loading(true)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 statusTextView.text = resources.getString(R.string.card_accepted)
                 backToRegisterBtn.isEnabled = true
+                loading(false)
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 statusTextView.text = resources.getString(R.string.card_refused)
                 Toast.makeText(activity, resources.getString(R.string.cheque_refused), Toast.LENGTH_SHORT).show()
+                loading(false)
             }
         })
     }
@@ -305,12 +336,24 @@ class PaymentActivity : AppCompatActivity(),
     }
 
     /***
-     * Cancel the current operation
+     * Cancel the current operation by deleting the order using the API
      */
     fun cancelOperation(v: View) {
-        // todo: define what it's suppose to do ?
-        //setResult(RESULT_CANCELED, Intent())
-        onBackPressed()
+        if (orderId > 0) {
+            orderAPI.deleteOrder(orderId).enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    onBackPressed()
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    onBackPressed()
+                }
+            })
+        }
+        else {
+            onBackPressed()
+        }
+
     }
 
     override fun onFragmentInteraction(uri: Uri) {
