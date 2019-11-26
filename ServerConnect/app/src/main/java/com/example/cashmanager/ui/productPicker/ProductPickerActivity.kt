@@ -119,7 +119,7 @@ class ProductPickerActivity : AppCompatActivity() {
         loading(true)
         val call = productAPI.availableProducts()
 
-        call.enqueue(object : Callback<List<Product>> {
+        call.enqueue(object: Callback<List<Product>> {
             override fun onResponse(call: Call<List<Product>>, response: Response<List<Product>>) {
                 availableProducts = response.body() as MutableList<Product>
                 for (product in availableProducts)

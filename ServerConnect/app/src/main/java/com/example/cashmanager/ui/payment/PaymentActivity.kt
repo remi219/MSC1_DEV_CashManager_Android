@@ -22,7 +22,6 @@ import com.google.zxing.integration.android.IntentResult
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import com.example.cashmanager.data.dto.OrderStatusDTO
 import com.example.cashmanager.data.dto.PaymentCardDTO
 import com.example.cashmanager.data.dto.PaymentChequeDTO
 import com.example.cashmanager.data.model.Cart

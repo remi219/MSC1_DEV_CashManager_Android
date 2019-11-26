@@ -3,6 +3,7 @@ package com.example.cashmanager.ui.cashRegister
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -13,23 +14,31 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
+import com.example.cashmanager.data.dto.ProductWrapperDTO
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
+import com.example.cashmanager.service.ProductService
+import com.example.cashmanager.service.ServiceBuilder
 import com.example.cashmanager.ui.bill.BillActivity
 import com.example.cashmanager.ui.productPicker.ProductPickerActivity
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.Serializable
 import java.text.NumberFormat
-
 
 
 class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private val PICK_PRODUCTS_REQUEST = 1
     private val format = NumberFormat.getCurrencyInstance()
+    private lateinit var productAPI : ProductService
 
     var cart: Cart = Cart()
     private var paymentMode : PaymentMode = PaymentMode.CHEQUE
     private lateinit var paymentModeTitle : List<String>
+    private lateinit var prefs : SharedPreferences
 
     lateinit var noArticleTextview : TextView
     lateinit var cartRecyclerView : RecyclerView
@@ -48,6 +57,9 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         paymentSpinner = findViewById(R.id.payment_spinner)
 
         paymentModeTitle = listOf(resources.getString(R.string.payment_mode_cheque), resources.getString(R.string.payment_mode_nfc))
+
+        prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
+        productAPI = ServiceBuilder.createService(ProductService::class.java, prefs.getString("token", ""))
 
         paymentSpinner.onItemSelectedListener = this
         val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, paymentModeTitle)
@@ -141,18 +153,6 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         Toast.makeText(this, R.string.cart_reset_toast, Toast.LENGTH_SHORT).show()
     }
 
-    /**
-     * Proceed to the next activity, displaying the bill total.
-     * Transmit the cart content as Serializable to the next activity
-     */
-    fun proceed(v: View) {
-        // Todo: disable if no product
-        val intent = Intent(this, BillActivity::class.java)
-        intent.putExtra("cart", cart as Serializable)
-        intent.putExtra("paymentMode", paymentMode)
-        startActivity(intent)
-    }
-
     // Spinner
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -162,4 +162,46 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         paymentMode = if (position == 0) PaymentMode.CHEQUE else PaymentMode.NFC
     }
 
+    /**
+     * Proceed to the next activity, displaying the bill total.
+     * Transmit the cart content as Serializable to the next activity
+     * Save the cart content online
+     */
+    fun proceed(v: View) {
+        if (cart.products.size < 1) {
+            Toast.makeText(this, R.string.cart_empty, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val intent = Intent(this, BillActivity::class.java)
+
+        intent.putExtra("cart", cart as Serializable)
+        intent.putExtra("paymentMode", paymentMode)
+
+        val userId  = prefs.getInt("userId", 0)
+
+//        if (userId.isEmpty()) {
+//            loading(false)
+//            return
+//        }
+
+        val products: MutableList<ProductWrapperDTO> = mutableListOf()
+
+        for (p in cart.products)
+            products.add(ProductWrapperDTO(p.first.id, p.second))
+
+        val call = productAPI.addProducts(userId, products)
+
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                startActivity(intent)
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Toast.makeText(this@CashRegisterActivity, R.string.cart_saving_failed, Toast.LENGTH_SHORT).show()
+                t.printStackTrace()
+                startActivity(intent)
+            }
+        })
+    }
 }

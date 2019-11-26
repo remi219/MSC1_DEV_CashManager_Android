@@ -12,5 +12,5 @@ interface OrderService {
      * Create an order for the given userId
      */
     @POST("order/{userId}")
-    fun createUserOrder(@Path("userId") userId : String, @Body order : OrderDTO) : Call<OrderDTO>
+    fun createUserOrder(@Path("userId") userId : Int, @Body order : OrderDTO) : Call<OrderDTO>
 }

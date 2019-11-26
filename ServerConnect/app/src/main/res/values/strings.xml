@@ -62,6 +62,7 @@
     <string name="add_article_btn">Add articles</string>
     <string name="total">Total: %s</string>
     <string name="cart_reset_toast">Cart cleared</string>
+    <string name="cart_empty">Add an item to your cart to proceed!</string>
 
     <!-- Product picker activity -->
     <string name="product_picker_activity_title">Available products</string>
@@ -70,6 +71,8 @@
     <string name="invalid_barcode">Invalid barcode</string>
     <string name="product_not_found">Product not found</string>
     <string name="added_product">Added %1$s</string>
+    <string name="cart_saving_failed">Could not save our cart online</string>
+
 
     <!-- Bill total activity-->
     <string name="bill_activity_title">Total Bill</string>

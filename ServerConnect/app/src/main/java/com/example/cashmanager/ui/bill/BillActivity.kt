@@ -19,7 +19,6 @@ import com.example.cashmanager.data.model.PaymentMode
 import com.example.cashmanager.service.OrderService
 import com.example.cashmanager.service.ServiceBuilder
 import com.example.cashmanager.ui.payment.PaymentActivity
-import org.koin.android.ext.android.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,6 +36,7 @@ class BillActivity : AppCompatActivity() {
     lateinit var nbItemTextView : TextView
     lateinit var progressView : FrameLayout
     lateinit var goToPaymentBtn : Button
+    lateinit var cancelBtn : Button
 
     lateinit var prefs : SharedPreferences
 
@@ -50,6 +50,7 @@ class BillActivity : AppCompatActivity() {
         paymentTextView = findViewById(R.id.payment_mode)
         progressView = findViewById(R.id.progress_view)
         goToPaymentBtn = findViewById(R.id.proceed_btn)
+        cancelBtn = findViewById(R.id.cancel_btn)
 
         prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
         orderAPI = ServiceBuilder.createService(OrderService::class.java, prefs.getString("token", ""))
@@ -71,6 +72,18 @@ class BillActivity : AppCompatActivity() {
         }
     }
 
+    private fun loading(isLoading: Boolean) {
+        if (isLoading) {
+            progressView.visibility = View.VISIBLE
+            cancelBtn.isEnabled = false
+            goToPaymentBtn.isEnabled = false
+        } else {
+            progressView.visibility = View.GONE
+            cancelBtn.isEnabled = true
+            goToPaymentBtn.isEnabled = true
+        }
+    }
+
     /**
      * Proceed to the payment page
      */
@@ -89,26 +102,27 @@ class BillActivity : AppCompatActivity() {
      * Send the order the API and send order id to the next page
      */
     private fun sendOrder(intent: Intent) {
-        val userId  = prefs.getString("token", "") ?: ""
+        loading(true)
+
+        val userId  = prefs.getInt("userId", 0)
         val order = OrderDTO(cart)
 
 //        if (userId.isEmpty()) {
-//            progressView.visibility = View.GONE
+//            loading(false)
 //            return
 //        }
-        orderAPI.createUserOrder(userId, order).enqueue(object : Callback<OrderDTO> {
+        orderAPI.createUserOrder(userId, order).enqueue(object: Callback<OrderDTO> {
             override fun onResponse(call: Call<OrderDTO>, response: Response<OrderDTO>) {
                 startActivity(intent)
                 intent.putExtra("orderId", response.body()?.id ?: 0)
-                progressView.visibility = View.GONE
-                goToPaymentBtn.isEnabled = true
+                loading(false)
             }
 
             override fun onFailure(call: Call<OrderDTO>, t: Throwable) {
                 startActivity(intent)
-                progressView.visibility = View.GONE
                 Toast.makeText(this@BillActivity, "Could not make order", Toast.LENGTH_SHORT).show()
-                goToPaymentBtn.isEnabled = true
+                loading(false)
+                t.printStackTrace()
             }
         })
     }

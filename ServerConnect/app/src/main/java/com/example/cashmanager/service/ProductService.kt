@@ -2,6 +2,7 @@ package com.example.cashmanager.service
 
 import com.example.cashmanager.data.dto.ProductWrapperDTO
 import com.example.cashmanager.data.model.Product
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,5 +21,5 @@ interface ProductService {
      * Post the list of products in the user cart
      */
     @POST("/product/{id}")
-    fun addProducts(@Path("id") userId: Int, @Body products : List<ProductWrapperDTO> )
+    fun addProducts(@Path("id") userId: Int, @Body products : List<ProductWrapperDTO>) : Call<ResponseBody>
 }
