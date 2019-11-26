@@ -92,9 +92,10 @@ class BillActivity : AppCompatActivity() {
         val userId  = prefs.getString("token", "") ?: ""
         val order = OrderDTO(cart)
 
-        if (userId.isEmpty())
-            return
-
+//        if (userId.isEmpty()) {
+//            progressView.visibility = View.GONE
+//            return
+//        }
         orderAPI.createUserOrder(userId, order).enqueue(object : Callback<OrderDTO> {
             override fun onResponse(call: Call<OrderDTO>, response: Response<OrderDTO>) {
                 startActivity(intent)

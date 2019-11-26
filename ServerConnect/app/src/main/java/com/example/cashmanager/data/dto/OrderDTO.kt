@@ -27,7 +27,8 @@ class OrderDTO(cart: Cart) {
         orderStatusDto = OrderStatusDTO("pending")
         productDtos = mutableListOf()
         for (products in cart.products) {
-            productDtos?.add(products.second, products.first)
+            for (i in 1..products.second)
+                productDtos?.add(products.first)
         }
     }
 }
