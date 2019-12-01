@@ -104,7 +104,7 @@ class BillActivity : AppCompatActivity() {
     private fun sendOrder(intent: Intent) {
         loading(true)
 
-        val userId  = prefs.getInt("userId", 0)
+        val userId = prefs.getInt("userId", 0)
         val order = OrderDTO(cart)
 
 //        if (userId.isEmpty()) {

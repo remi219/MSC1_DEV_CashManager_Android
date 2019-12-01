@@ -14,13 +14,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
+import com.example.cashmanager.data.dto.ProductQuantityDTO
 import com.example.cashmanager.data.dto.ProductWrapperDTO
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
+import com.example.cashmanager.service.CustomerService
 import com.example.cashmanager.service.ProductService
 import com.example.cashmanager.service.ServiceBuilder
 import com.example.cashmanager.ui.bill.BillActivity
 import com.example.cashmanager.ui.productPicker.ProductPickerActivity
+import kotlinx.android.synthetic.main.activity_cash_register.view.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,11 +37,14 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     private val PICK_PRODUCTS_REQUEST = 1
     private val format = NumberFormat.getCurrencyInstance()
     private lateinit var productAPI : ProductService
+    private lateinit var customerAPI : CustomerService
 
     var cart: Cart = Cart()
     private var paymentMode : PaymentMode = PaymentMode.CHEQUE
     private lateinit var paymentModeTitle : List<String>
     private lateinit var prefs : SharedPreferences
+
+    private var userId : Int = 0
 
     lateinit var noArticleTextview : TextView
     lateinit var cartRecyclerView : RecyclerView
@@ -66,6 +72,8 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
         prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
         productAPI = ServiceBuilder.createService(ProductService::class.java, prefs.getString("token", ""))
+        customerAPI = ServiceBuilder.createService(CustomerService::class.java, prefs.getString("token", ""))
+        userId  = prefs.getInt("userId", 0)
 
         paymentSpinner.onItemSelectedListener = this
         val aa = ArrayAdapter(this, android.R.layout.simple_spinner_item, paymentModeTitle)
@@ -75,6 +83,8 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
         totalTextView.text = resources.getString(R.string.bill_total, format.format(0))
         proceedButton.isEnabled = false
+
+        reloadCustomerCart()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -154,6 +164,26 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     }
 
     /**
+     * Load the customer's cart from the API
+     */
+    fun reloadCustomerCart() {
+        loading(true)
+        customerAPI.getCart(userId).enqueue(object: Callback<List<ProductQuantityDTO>> {
+            override fun onResponse(call: Call<List<ProductQuantityDTO>>, response: Response<List<ProductQuantityDTO>>) {
+                loading(false)
+                cart = Cart()
+                response.body()?.forEach {
+                    cart.products.add(Pair(it.product, it.quantity))
+                }
+            }
+
+            override fun onFailure(call: Call<List<ProductQuantityDTO>>, t: Throwable) {
+                loading(false)
+            }
+        })
+    }
+
+    /**
      * Open the Product picker activity to add item to cart
      */
     fun openProductPicker(v: View) {
@@ -165,6 +195,7 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
 
     /**
      * Reset the content of the cart.
+     * Request the api to clear the customer content
      */
     fun reset(v: View) {
         // Todo: clear the list of products in the cart
@@ -173,12 +204,17 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         cart.reset()
         proceedButton.isEnabled = false
         Toast.makeText(this, R.string.cart_reset_toast, Toast.LENGTH_SHORT).show()
+
+        customerAPI.resetCart(userId).enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                println("Could not clear cart API side")
+            }
+        })
     }
 
     // Spinner
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-    }
+    override fun onNothingSelected(parent: AdapterView<*>?) { }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         paymentMode = if (position == 0) PaymentMode.CHEQUE else PaymentMode.NFC
@@ -201,7 +237,6 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         intent.putExtra("cart", cart as Serializable)
         intent.putExtra("paymentMode", paymentMode)
 
-        val userId  = prefs.getInt("userId", 0)
 //        if (userId.isEmpty()) {
 //            loading(false)
 //            return
@@ -212,6 +247,7 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         for (p in cart.products)
             products.add(ProductWrapperDTO(p.first.id, p.second))
 
+        // Todo: replace
         productAPI.addProducts(userId, products).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 loading(false)

@@ -12,10 +12,15 @@ interface OrderService {
 
     /**
      * Create an order for the given userId
+     * @param userId user id
      */
     @POST("order/{userId}")
     fun createUserOrder(@Path("userId") userId : Int, @Body order : OrderDTO) : Call<OrderDTO>
 
-    @DELETE("order/{id}")
+    /**
+     * Delete the selected order
+     * @param id Order id
+     */
+    @DELETE("order/deleteOrder/{id}")
     fun deleteOrder(@Path("id") id : Int) : Call<ResponseBody>
 }

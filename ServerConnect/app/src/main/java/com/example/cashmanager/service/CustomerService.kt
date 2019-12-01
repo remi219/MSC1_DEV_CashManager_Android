@@ -1,6 +1,7 @@
 package com.example.cashmanager.service
 
 import com.example.cashmanager.data.dto.CustomerDTO
+import com.example.cashmanager.data.dto.ProductQuantityDTO
 import com.example.cashmanager.data.dto.ProductWrapperDTO
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -14,6 +15,12 @@ interface CustomerService {
      */
     @GET("customer/{id}")
     fun getCustomer(@Path("id") id: Int) : Call<CustomerDTO>
+
+    /**
+     * Get saved customer's cart from the server
+     */
+    @GET("customer/{id}/cart")
+    fun getCart(@Path("id") id: Int) : Call<List<ProductQuantityDTO>>
 
     /**
      * Set the list of products to the customer cart
