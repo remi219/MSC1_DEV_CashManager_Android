@@ -10,8 +10,8 @@ Order can be payed using a QRcode.
 The QRcode must contain the following Json structure:
 ``` json
   {
-    id: "123abc",
-    value: 1.24
+    "id": "123abc",
+    "value": 1.24
   }
 ```
 *Id* is not relevant and is not tested. However the field *value* must match the order total, otherwise the cheque will be rejected.
