@@ -144,7 +144,10 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                         Toast.makeText(this@LoginActivity, R.string.login_success, Toast.LENGTH_SHORT).show()
                     } else {
+                        println(call.request().body().toString())
+                        println(response.raw())
                         println("Login response unsuccessful")
+                        Toast.makeText(this@LoginActivity, R.string.login_failed, Toast.LENGTH_SHORT).show()
                     }
                 }
 

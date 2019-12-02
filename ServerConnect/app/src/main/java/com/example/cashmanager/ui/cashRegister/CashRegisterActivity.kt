@@ -167,7 +167,7 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     /**
      * Load the customer's cart from the API
      */
-    fun reloadCustomerCart() {
+    private fun reloadCustomerCart() {
         loading(true)
         customerAPI.getCart(userId).enqueue(object: Callback<List<ProductQuantityDTO>> {
             override fun onResponse(call: Call<List<ProductQuantityDTO>>, response: Response<List<ProductQuantityDTO>>) {

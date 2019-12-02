@@ -4,6 +4,7 @@ import com.example.cashmanager.data.dto.PaymentCardDTO
 import com.example.cashmanager.data.dto.PaymentChequeDTO
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface PaymentService {
@@ -13,12 +14,12 @@ interface PaymentService {
      * @param data Cheque payment information dto
      */
     @POST("/payement/cheque")
-    fun postChequePayment(data: PaymentChequeDTO) : Call<ResponseBody>
+    fun postChequePayment(@Body data: PaymentChequeDTO) : Call<ResponseBody>
 
     /**
      * Transmit NFC payment information to the API
      * @param data NFC payment information dto
      */
     @POST("/payement/nfc")
-    fun postNFCPayment(data: PaymentCardDTO) : Call<ResponseBody>
+    fun postNFCPayment(@Body data: PaymentCardDTO) : Call<ResponseBody>
 }

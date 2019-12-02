@@ -54,7 +54,7 @@
     <string name="error_no_password">Enter a password in both fields</string>
     <string name="error_repeat_password">Passwords do not matches</string>
     <string name="account_created">Account created</string>
-    <string name="username_unavailable">Username is not available</string>
+    <string name="username_unavailable">Failed to create account</string>
 
     <!-- Cash register activity -->
     <string name="cash_register_activity_title">Cash register</string>

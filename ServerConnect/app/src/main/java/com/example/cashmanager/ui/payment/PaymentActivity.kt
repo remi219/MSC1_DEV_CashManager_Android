@@ -296,6 +296,7 @@ class PaymentActivity : AppCompatActivity(),
                 }
             })
         } catch (ex : Exception) {
+            ex.printStackTrace()
             Toast.makeText(
                 activity,
                 resources.getString(R.string.api_call_failed),

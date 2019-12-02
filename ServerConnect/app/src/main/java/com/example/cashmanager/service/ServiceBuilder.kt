@@ -11,7 +11,10 @@ import java.util.concurrent.TimeUnit
  */
 class ServiceBuilder {
     companion object {
+        // Url when using the emulator
         private val baseUrl : String = "http://10.0.2.2:8080"
+        // Url of the computer on the local network
+        // private val baseUrl : String = "http://192.168.0.14:8080"
 
         private val httpClient = OkHttpClient.Builder()
             .readTimeout(3, TimeUnit.SECONDS)
