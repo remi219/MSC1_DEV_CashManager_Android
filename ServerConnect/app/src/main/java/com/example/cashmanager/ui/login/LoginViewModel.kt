@@ -19,15 +19,21 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
     fun login(username: String, password: String, context: Context) {
         val result = loginRepository.login(username, password)
+        val pref = context.applicationContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
+        val editor = pref.edit()
+
         if (result is Result.Success) {
             _loginResult.value =
                 LoginResult(success = ServerDataView(displayUsername = result.data.username))
-            val pref = context.applicationContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
-            val editor = pref.edit()
+
 
             editor.putString("jwt", result.data.jwt)
+            editor.putInt("userId", result.data.id)
             editor.apply()
         } else {
+            // Remove when login is working
+            editor.putInt("userId", 1)
+            editor.apply()
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }
     }

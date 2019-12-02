@@ -5,4 +5,5 @@ data class ServerData(
     val password: String
 ) {
     var jwt: String? = null
+    var id: Int = 0
 }

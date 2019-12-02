@@ -71,7 +71,7 @@
     <string name="invalid_barcode">Invalid barcode</string>
     <string name="product_not_found">Product not found</string>
     <string name="added_product">Added %1$s</string>
-    <string name="cart_saving_failed">Could not save our cart online</string>
+    <string name="cart_saving_failed">Could not save your cart online</string>
 
 
     <!-- Bill total activity-->

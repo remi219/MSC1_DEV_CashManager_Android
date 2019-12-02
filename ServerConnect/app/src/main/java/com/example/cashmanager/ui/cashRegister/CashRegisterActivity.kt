@@ -248,7 +248,7 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
             products.add(ProductWrapperDTO(p.first.id, p.second))
 
         // Todo: replace
-        productAPI.addProducts(userId, products).enqueue(object : Callback<ResponseBody> {
+        customerAPI.setCart(userId, products).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 loading(false)
                 startActivity(intent)
