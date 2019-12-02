@@ -58,6 +58,7 @@ class PaymentActivity : AppCompatActivity(),
     private lateinit var progressView : FrameLayout
 
     private lateinit var cart : Cart
+    private var userId = 0
     private var orderId : Int = 0
     private lateinit var paymentMode : PaymentMode
     private lateinit var paymentAPI : PaymentService
@@ -80,6 +81,7 @@ class PaymentActivity : AppCompatActivity(),
         val prefs = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
         paymentAPI = ServiceBuilder.createService(PaymentService::class.java, prefs.getString("token", ""))
         orderAPI = ServiceBuilder.createService(OrderService::class.java, prefs.getString("token", ""))
+        userId = prefs.getInt("userId", 0)
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
         orderId = intent.getIntExtra("order", 0)
@@ -272,7 +274,7 @@ class PaymentActivity : AppCompatActivity(),
 
         // Call to the server
         try {
-            val call = paymentAPI.postChequePayment(PaymentChequeDTO(chequeData.id, cart.billTotal, orderId))
+            val call = paymentAPI.postChequePayment(PaymentChequeDTO(userId, chequeData.id, cart.billTotal, orderId))
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
                 ) {
@@ -310,7 +312,7 @@ class PaymentActivity : AppCompatActivity(),
      * @param cardId: Card id
      */
     private fun sendCardPayment(cardId : String) {
-        val call = paymentAPI.postNFCPayment(PaymentCardDTO(cardId, orderId))
+        val call = paymentAPI.postNFCPayment(PaymentCardDTO(userId, cardId, orderId))
 
         loading(true)
         call.enqueue(object : Callback<ResponseBody> {
@@ -357,6 +359,6 @@ class PaymentActivity : AppCompatActivity(),
     }
 
     override fun onFragmentInteraction(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
