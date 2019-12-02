@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import com.example.cashmanager.R
+import com.example.cashmanager.data.dto.CustomerDTO
 import com.example.cashmanager.data.dto.UserDTO
 import com.example.cashmanager.service.LoginService
 import com.example.cashmanager.service.ServiceBuilder
@@ -27,7 +28,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var registerBtn : Button
     private lateinit var progressView: FrameLayout
 
-    private var user : UserDTO = UserDTO()
+    private var user : CustomerDTO = CustomerDTO()
 
     private lateinit var loginService: LoginService
 
@@ -77,16 +78,22 @@ class RegisterActivity : AppCompatActivity() {
             return
 
         enableComponents(false)
+        user = CustomerDTO(usernameEditText.text.toString(),
+            passwordEditText.text.toString(),
+            emailEditText.text.toString(),
+            firstNameEditText.text.toString(),
+            lastNameEditText.text.toString())
+
         val call = loginService.register(user)
 
-        call.enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, respose: Response<String>) {
+        call.enqueue(object : Callback<CustomerDTO> {
+            override fun onResponse(call: Call<CustomerDTO>, respose: Response<CustomerDTO>) {
                 Toast.makeText(this@RegisterActivity, resources.getText(R.string.account_created), Toast.LENGTH_LONG).show()
                 enableComponents(true)
                 finish()
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<CustomerDTO>, t: Throwable) {
                 Toast.makeText(this@RegisterActivity, resources.getText(R.string.username_unavailable), Toast.LENGTH_SHORT).show()
                 enableComponents(true)
             }

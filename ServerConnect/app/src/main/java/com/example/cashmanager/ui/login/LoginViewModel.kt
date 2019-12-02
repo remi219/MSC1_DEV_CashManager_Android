@@ -26,7 +26,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
             _loginResult.value =
                 LoginResult(success = ServerDataView(displayUsername = result.data.username))
 
-
             editor.putString("jwt", result.data.jwt)
             editor.putInt("userId", result.data.id)
             editor.apply()
@@ -49,7 +48,8 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     }
 
     private fun isUsernameValid(username: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(username).matches()
+        //return Patterns.EMAIL_ADDRESS.matcher(username).matches()
+        return true
     }
 
     private fun isPasswordValid(password: String): Boolean {

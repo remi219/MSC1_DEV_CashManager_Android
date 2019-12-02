@@ -13,6 +13,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="instruction">Enter your username and password</string>
     <string name="instruction_profile">Then select a profile</string>
+    <string name="login_success">Welcome back!</string>
     <string-array name="profiles">
         <item>Administrator</item>
         <item>Customer</item>

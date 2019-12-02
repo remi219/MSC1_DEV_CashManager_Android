@@ -1,11 +1,9 @@
 package com.example.cashmanager.data
 
 import android.util.Log
+import com.example.cashmanager.data.dto.CustomerDTO
 import com.example.cashmanager.data.model.ServerData
 import java.io.IOException
-import android.R.id.edit
-import android.content.Context
-import android.content.SharedPreferences
 import com.example.cashmanager.data.dto.LoginDTO
 import com.example.cashmanager.service.LoginService
 import com.example.cashmanager.service.ServiceBuilder
@@ -14,15 +12,21 @@ import retrofit2.Response
 
 class LoginDataSource {
 
-    fun login(ip: String, password: String): Result<ServerData> {
+    fun login(username: String, password: String): Result<ServerData> {
         try {
-            var serverData = ServerData(ip, password)
+            var serverData = ServerData(username, password)
             val loginAPI = ServiceBuilder.createService(LoginService::class.java)
 
-            val response: Response<String>  = loginAPI.login(LoginDTO(ip, password)).execute()
-            serverData.jwt = response.body()
+            val response: Response<CustomerDTO> = loginAPI.login(LoginDTO(username, password)).execute()
 
-            Log.d("ip/pwd = ", "$ip $password")
+            // Todo: uncomment if token available
+            //serverData.jwt = response.body()
+
+            serverData.id = response.body()?.id ?: 0
+            if (serverData.id == 0)
+                throw Exception()
+
+            Log.d("username/pwd = ", "$username $password")
 
             return Result.Success(serverData)
         } catch (e: Throwable) {
@@ -39,6 +43,7 @@ class LoginDataSource {
 //        val pref = context.applicationContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
 //        val editor = pref.edit()
 //
+//        editor.remove("userId")
 //        editor.remove("jwt")
 //        editor.apply()
     }

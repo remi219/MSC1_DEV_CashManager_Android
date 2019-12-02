@@ -7,7 +7,7 @@ class UserDTO {
 
     private val password: String? = null
 
-    private val Email: String? = null
+    private val email: String? = null
 
     private val firstName: String? = null
 

@@ -1,5 +1,6 @@
 package com.example.cashmanager.service
 
+import com.example.cashmanager.data.dto.CustomerDTO
 import com.example.cashmanager.data.dto.LoginDTO
 import com.example.cashmanager.data.dto.UserDTO
 import okhttp3.ResponseBody
@@ -12,9 +13,9 @@ interface LoginService {
     /**
      * Login on the REST API
      */
-    @POST("login")
-    fun login(@Body login: LoginDTO) : Call<String>
+    @POST("/login")
+    fun login(@Body login: LoginDTO) : Call<CustomerDTO>
 
-    @POST("register")
-    fun register(@Body user: UserDTO) : Call<String>
+    @POST("/customer")
+    fun register(@Body customer: CustomerDTO) : Call<CustomerDTO>
 }

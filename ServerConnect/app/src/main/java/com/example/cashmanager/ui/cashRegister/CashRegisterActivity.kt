@@ -105,6 +105,7 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                         val pref = applicationContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
                         val editor = pref.edit()
                         editor.remove("jwt")
+                        editor.remove("userId")
                         editor.apply()
                         finish()
                     }

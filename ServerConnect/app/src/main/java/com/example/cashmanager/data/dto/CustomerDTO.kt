@@ -1,15 +1,26 @@
 package com.example.cashmanager.data.dto
 
-class CustomerDTO {
-    private val id: Int? = null
+/**
+ * Dto for customer entity
+ */
+class CustomerDTO() {
+    val id: Int? = null
 
-    private val username: String? = null
+    var username: String? = null
 
-    private val password: String? = null
+    var password: String? = null
 
-    private val Email: String? = null
+    var email: String? = null
 
-    private val firstName: String? = null
+    var firstName: String? = null
 
-    private val lastName: String? = null
+    var lastName: String? = null
+
+    constructor(username: String, password: String, email: String, firstName: String, lastName: String) : this() {
+        this.username = username
+        this.password = password
+        this.email = email
+        this.firstName = firstName
+        this.lastName = lastName
+    }
 }
