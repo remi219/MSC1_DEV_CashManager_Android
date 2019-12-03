@@ -3,6 +3,7 @@ package com.example.cashmanager.service
 import com.example.cashmanager.data.dto.CustomerDTO
 import com.example.cashmanager.data.dto.ProductQuantityDTO
 import com.example.cashmanager.data.dto.ProductWrapperDTO
+import com.example.cashmanager.data.dto.ProductWrapperListDTO
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -27,7 +28,7 @@ interface CustomerService {
      * Overwrite the existing cart
      */
     @POST("/customer/{id}/cart")
-    fun setCart(@Path("id") id: Int, @Body products: List<ProductWrapperDTO>) : Call<ResponseBody>
+    fun setCart(@Path("id") id: Int, @Body products: ProductWrapperListDTO) : Call<ResponseBody>
 
     /**
      * Clear the customer cart

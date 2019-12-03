@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cashmanager.R
 import com.example.cashmanager.data.dto.ProductQuantityDTO
 import com.example.cashmanager.data.dto.ProductWrapperDTO
+import com.example.cashmanager.data.dto.ProductWrapperListDTO
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
 import com.example.cashmanager.service.CustomerService
@@ -237,19 +238,12 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         val intent = Intent(this, BillActivity::class.java)
         intent.putExtra("cart", cart as Serializable)
         intent.putExtra("paymentMode", paymentMode)
-
-//        if (userId.isEmpty()) {
-//            loading(false)
-//            return
-//        }
-
         val products: MutableList<ProductWrapperDTO> = mutableListOf()
 
         for (p in cart.products)
             products.add(ProductWrapperDTO(p.first.id, p.second))
 
-        // Todo: replace
-        customerAPI.setCart(userId, products).enqueue(object : Callback<ResponseBody> {
+        customerAPI.setCart(userId, ProductWrapperListDTO(products)).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 loading(false)
                 startActivity(intent)
@@ -259,8 +253,6 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                 Toast.makeText(this@CashRegisterActivity, R.string.cart_saving_failed, Toast.LENGTH_SHORT).show()
                 t.printStackTrace()
                 loading(false)
-                // Todo: stay on page if failed
-                startActivity(intent)
             }
         })
     }
