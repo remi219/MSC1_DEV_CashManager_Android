@@ -352,21 +352,23 @@ class PaymentActivity : AppCompatActivity(),
 
     /***
      * Cancel the current operation by deleting the order using the API
+     * Deletion disable for now
      */
     fun cancelOperation(v: View) {
         if (orderId > 0) {
-            orderAPI.deleteOrder(orderId).enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    println(response.raw())
-                    println(response.isSuccessful)
-                    onBackPressed()
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    println("Failed to delete order")
-                    onBackPressed()
-                }
-            })
+//            orderAPI.deleteOrder(orderId).enqueue(object : Callback<ResponseBody> {
+//                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                    println(response.raw())
+//                    println(response.isSuccessful)
+//                    onBackPressed()
+//                }
+//
+//                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                    println("Failed to delete order")
+//                    onBackPressed()
+//                }
+//            })
+            onBackPressed()
         }
         else {
             println(orderId)
