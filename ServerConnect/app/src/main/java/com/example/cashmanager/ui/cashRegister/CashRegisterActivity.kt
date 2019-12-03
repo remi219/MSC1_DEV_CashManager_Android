@@ -138,8 +138,8 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
                     noArticleTextview.visibility = View.GONE
                     cartRecyclerView.visibility = View.VISIBLE
                     cartRecyclerView.apply {
-                        layoutManager = LinearLayoutManager(activity)
-                        adapter = CashRegisterAdapter(cart.products, activity)
+                        layoutManager = LinearLayoutManager(this@CashRegisterActivity)
+                        adapter = CashRegisterAdapter(cart.products, this@CashRegisterActivity)
                     }
                 }
             }
@@ -172,14 +172,27 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
         loading(true)
         customerAPI.getCart(userId).enqueue(object: Callback<List<ProductQuantityDTO>> {
             override fun onResponse(call: Call<List<ProductQuantityDTO>>, response: Response<List<ProductQuantityDTO>>) {
-                loading(false)
+                println(response.raw())
                 cart = Cart()
                 response.body()?.forEach {
                     cart.products.add(Pair(it.product, it.quantity))
                 }
+                if (cart.size == 0) {
+                    noArticleTextview.visibility = View.VISIBLE
+                    cartRecyclerView.visibility = View.GONE
+                } else {
+                    noArticleTextview.visibility = View.GONE
+                    cartRecyclerView.visibility = View.VISIBLE
+                    cartRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(this@CashRegisterActivity)
+                        adapter = CashRegisterAdapter(cart.products, this@CashRegisterActivity)
+                    }
+                }
+                loading(false)
             }
 
             override fun onFailure(call: Call<List<ProductQuantityDTO>>, t: Throwable) {
+                println("Could not retrieve cart content")
                 loading(false)
             }
         })
