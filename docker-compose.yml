@@ -5,7 +5,7 @@ services:
     build: ./ServerConnect
     container_name: "Android"
     volumes:
-      - apk:/app/build/outputs/apk/debug/
+      - apk:/application/files
   back:
     build:
       context: ./CashManager_API
@@ -15,7 +15,7 @@ services:
       - '8080:8080'
       - '8081:8080'
     volumes:
-      - apk:/files/
+      - apk:/app/files/
     depends_on:
       - db
       - android

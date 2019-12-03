@@ -30,8 +30,11 @@ RUN apt-get update && apt-get install build-essential -y && apt-get install file
 RUN mkdir /application
 WORKDIR /application
 
+RUN mkdir files
+
 COPY ./ ./
 
 CMD ["./gradlew", "assembleDebug"]
 
-# apk created in app/build/outputs/apk/debug/app-debug.apk
+# Apk created in app/build/outputs/apk/debug/app-debug.apk, files is the shared via volumes (cf docker-compose.yml)
+CMD ["cp", "app/build/outputs/apk/debug/app-debug.apk", "./files"]
