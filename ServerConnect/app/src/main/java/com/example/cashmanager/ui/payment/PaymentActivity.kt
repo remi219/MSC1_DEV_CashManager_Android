@@ -278,20 +278,24 @@ class PaymentActivity : AppCompatActivity(),
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>
                 ) {
-                    statusTextView.text = resources.getString(R.string.cheque_authorized)
-                    statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorSuccess))
-                    backToRegisterBtn.isEnabled = true
+                    if (response.isSuccessful) {
+                        statusTextView.text = resources.getString(R.string.cheque_authorized)
+                        statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorSuccess))
+                        backToRegisterBtn.isEnabled = true
+                    }
+                    else {
+                        statusTextView.text = resources.getString(R.string.cheque_refused)
+                        statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorFailure))
+                        Toast.makeText(activity, resources.getString(R.string.cheque_refused), Toast.LENGTH_SHORT).show()
+                    }
+
                     loading(false)
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     statusTextView.text = resources.getString(R.string.cheque_refused)
                     statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorFailure))
-                    Toast.makeText(
-                        activity,
-                        resources.getString(R.string.cheque_refused),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(activity, resources.getString(R.string.cheque_refused), Toast.LENGTH_SHORT).show()
                     loading(false)
                 }
             })
