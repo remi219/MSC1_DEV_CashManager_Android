@@ -1,15 +1,38 @@
-version: "2.2"
+version: "3"
 
 services:
   android:
     build: ./ServerConnect
+    container_name: "Android"
     volumes:
-    - apk-debug: app/build/outputs/apk/debug/
-  # Shared volumn with front
-  # front:
-  #   volumes:
-  #   - apk-debug: apk-debug
-
+      - apk:/app/build/outputs/apk/debug/
+  back:
+    build:
+      context: ./CashManager_API
+      dockerfile: DockerfileWithStages
+    container_name: "Spring_API"
+    ports:
+      - '8080:8080'
+      - '8081:8080'
+    volumes:
+      - apk:/files/
+    depends_on:
+      - db
+      - android
+  db:
+    image: mysql:5.7
+    container_name: "MySQL"
+    environment:
+      MYSQL_DATABASE: 'cashmanager'
+      MYSQL_USER: 'root'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3036'
+    volumes:
+      - my-db:/var/lib/mysql
 
 volumes:
-  apk-debug:
+  my-db:
+  apk:
