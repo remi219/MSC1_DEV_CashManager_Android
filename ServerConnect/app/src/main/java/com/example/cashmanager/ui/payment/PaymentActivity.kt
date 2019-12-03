@@ -138,7 +138,7 @@ class PaymentActivity : AppCompatActivity(),
         println("Foreground dispatch detected")
         val nfcTag : Tag?  = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
         println(nfcTag.toString())
-
+        sendCardPayment(nfcTag.toString())
         super.onNewIntent(intent)
     }
 
@@ -223,7 +223,6 @@ class PaymentActivity : AppCompatActivity(),
         }
     }
 
-
     /***
      * Start scanning activity
      */
@@ -281,15 +280,16 @@ class PaymentActivity : AppCompatActivity(),
                     if (response.isSuccessful) {
                         statusTextView.text = resources.getString(R.string.cheque_authorized)
                         statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorSuccess))
+                        loading(false)
                         backToRegisterBtn.isEnabled = true
+                        cancelOpBtn.isEnabled = false
                     }
                     else {
                         statusTextView.text = resources.getString(R.string.cheque_refused)
                         statusTextView.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorFailure))
                         Toast.makeText(activity, resources.getString(R.string.cheque_refused), Toast.LENGTH_SHORT).show()
+                        loading(false)
                     }
-
-                    loading(false)
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -322,9 +322,16 @@ class PaymentActivity : AppCompatActivity(),
         loading(true)
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                statusTextView.text = resources.getString(R.string.card_accepted)
-                backToRegisterBtn.isEnabled = true
-                loading(false)
+                if (response.isSuccessful) {
+                    statusTextView.text = resources.getString(R.string.card_accepted)
+                    loading(false)
+                    backToRegisterBtn.isEnabled = true
+                    cancelOpBtn.isEnabled = false
+                } else {
+                    statusTextView.text = resources.getString(R.string.card_refused)
+                    Toast.makeText(activity, resources.getString(R.string.cheque_refused), Toast.LENGTH_SHORT).show()
+                    loading(false)
+                }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -339,7 +346,7 @@ class PaymentActivity : AppCompatActivity(),
      * Return to Cash register activity when the payment is successful
      */
     fun backToRegister(v : View) {
-        finish()
+        setResult(RESULT_OK, intent)
         finish()
     }
 
@@ -365,7 +372,6 @@ class PaymentActivity : AppCompatActivity(),
             println(orderId)
             onBackPressed()
         }
-
     }
 
     override fun onFragmentInteraction(uri: Uri) {

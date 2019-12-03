@@ -37,7 +37,7 @@ Enter your username and password to login to the application. If you do not have
 
 ### Cash register and product picker
 
-Here is the content of the cart. Cart content is retrieved from the API if existing. Tap the **Add products** button to add articles to your cart with the list or by scanning a barcode (id of the barcode is the id of the product in the API). Obviously, you can only proceed if your cart is not empty. Proceed will save the content of your cart online. You can also select you payment method here (Cheque or NFC).
+Here is the content of the cart. Cart content is retrieved from the API if existing. Tap the **Add products** button to add articles to your cart with the list or by scanning a barcode (id of the barcode is the id of the product in the API). Obviously, you can only proceed if your cart is not empty. Proceed will save the content of your cart online. You can also select you payment method here (Cheque or NFC). Use the API Swagger to create new items.
 
 ### Bill
 
@@ -45,6 +45,5 @@ This page show the total bill of your cart. An order is created and sent to the 
 
 ### Payment
 
-This page allow the user to pay their bill using their selected payment method. See the paragraph above for details about cheque payment. On success the customer cart will be cleared.
+This page allow the user to pay their bill using their selected payment method. See the paragraph above for details about cheque payment. On success the customer cart stored on the API will be cleared.
 User can also cancel their order by cancelling the operation and return to previous screen.
-

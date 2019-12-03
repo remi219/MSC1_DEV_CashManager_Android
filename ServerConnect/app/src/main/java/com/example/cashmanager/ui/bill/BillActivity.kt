@@ -1,5 +1,6 @@
 package com.example.cashmanager.ui.bill
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -18,6 +19,7 @@ import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.PaymentMode
 import com.example.cashmanager.service.OrderService
 import com.example.cashmanager.service.ServiceBuilder
+import com.example.cashmanager.ui.cashRegister.CashRegisterAdapter
 import com.example.cashmanager.ui.payment.PaymentActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,6 +27,8 @@ import retrofit2.Response
 import java.text.NumberFormat
 
 class BillActivity : AppCompatActivity() {
+
+    private val PAYMENT_REQUEST = 123
 
     lateinit var cart : Cart
     lateinit var paymentMode : PaymentMode
@@ -72,6 +76,17 @@ class BillActivity : AppCompatActivity() {
         }
     }
 
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // Check which request we're responding to
+        if (requestCode == PAYMENT_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == Activity.RESULT_OK) {
+                finish()
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     private fun loading(isLoading: Boolean) {
         if (isLoading) {
             progressView.visibility = View.VISIBLE
@@ -111,7 +126,7 @@ class BillActivity : AppCompatActivity() {
                 if (response.body()?.id != null && response.body()!!.id!! > 0)
                     Toast.makeText(this@BillActivity, R.string.order_created, Toast.LENGTH_SHORT).show()
                 loading(false)
-                startActivity(intent)
+                startActivityForResult(intent, PAYMENT_REQUEST)
             }
 
             override fun onFailure(call: Call<OrderDTO>, t: Throwable) {

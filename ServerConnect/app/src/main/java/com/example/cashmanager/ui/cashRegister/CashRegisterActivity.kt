@@ -120,7 +120,6 @@ class CashRegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedList
     }
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val activity = this
         // Check which request we're responding to
         if (requestCode == PICK_PRODUCTS_REQUEST) {
             // Make sure the request was successful
