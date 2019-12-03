@@ -134,22 +134,22 @@ class ProductPickerActivity : AppCompatActivity() {
 //                println(call.request().url())
 //                println(call.request().method())
 
-                availableProducts = mutableListOf(
-                    Product(1, "Water bottle", 0.5),
-                    Product(2, "Soda bottle", 1.0),
-                    Product(3, "Ice Tea bottle", 1.25),
-                    Product(4, "Coffee bottle", 1.5),
-                    Product(5, "Orange juice bottle", 0.75),
-                    Product(6, "Apple juice bottle", 0.69),
-                    Product(7, "Pear juice bottle", 1.12),
-                    Product(8, "Item with a very very very very long name on several line", 0.99),
-                    Product(9, "Banana juice bottle", 0.95),
-                    Product(10, "Toto", 99.995644)
-                )
-                for (product in availableProducts)
-                    fullCart.products.add(Pair(product, 0))
-                setProductAdapter()
-                Toast.makeText(activity, "API unavailable, loading mocked products instead", Toast.LENGTH_SHORT).show()
+//                availableProducts = mutableListOf(
+//                    Product(1, "Water bottle", 0.5),
+//                    Product(2, "Soda bottle", 1.0),
+//                    Product(3, "Ice Tea bottle", 1.25),
+//                    Product(4, "Coffee bottle", 1.5),
+//                    Product(5, "Orange juice bottle", 0.75),
+//                    Product(6, "Apple juice bottle", 0.69),
+//                    Product(7, "Pear juice bottle", 1.12),
+//                    Product(8, "Item with a very very very very long name on several line", 0.99),
+//                    Product(9, "Banana juice bottle", 0.95),
+//                    Product(10, "Toto", 99.995644)
+//                )
+//                for (product in availableProducts)
+//                    fullCart.products.add(Pair(product, 0))
+//                setProductAdapter()
+                Toast.makeText(activity, R.string.api_unavailable, Toast.LENGTH_SHORT).show()
                 loading(false)
             }
         })
