@@ -93,8 +93,6 @@ class BillActivity : AppCompatActivity() {
         intent.putExtra("paymentMode", paymentMode)
         goToPaymentBtn.isEnabled = false
 
-        progressView.visibility = View.VISIBLE
-
         sendOrder(intent)
     }
 
@@ -107,15 +105,13 @@ class BillActivity : AppCompatActivity() {
         val userId = prefs.getInt("userId", 0)
         val order = OrderDTO(cart)
 
-//        if (userId.isEmpty()) {
-//            loading(false)
-//            return
-//        }
         orderAPI.createUserOrder(userId, order).enqueue(object: Callback<OrderDTO> {
             override fun onResponse(call: Call<OrderDTO>, response: Response<OrderDTO>) {
-                startActivity(intent)
                 intent.putExtra("orderId", response.body()?.id ?: 0)
+                if (response.body()?.id != null && response.body()!!.id!! > 0)
+                    Toast.makeText(this@BillActivity, R.string.order_created, Toast.LENGTH_SHORT).show()
                 loading(false)
+                startActivity(intent)
             }
 
             override fun onFailure(call: Call<OrderDTO>, t: Throwable) {

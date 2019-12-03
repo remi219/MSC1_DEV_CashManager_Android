@@ -3,11 +3,12 @@ package com.example.cashmanager.data.dto
 import com.example.cashmanager.data.model.Cart
 import com.example.cashmanager.data.model.Product
 import java.util.*
+import java.io.Serializable
 
 /***
  * DTO for order object
  */
-class OrderDTO(cart: Cart) {
+class OrderDTO(cart: Cart) : Serializable {
     var id: Int? = null
 
     var total: Double? = null

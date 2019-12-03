@@ -84,7 +84,7 @@ class PaymentActivity : AppCompatActivity(),
         userId = prefs.getInt("userId", 0)
 
         cart = intent.getSerializableExtra("cart") as Cart? ?: Cart()
-        orderId = intent.getIntExtra("order", 0)
+        orderId = intent.getIntExtra("orderId", 0)
 
         val format = NumberFormat.getCurrencyInstance()
         billTextView.text = resources.getString(R.string.bill_total, format.format(cart.billTotal))
@@ -336,6 +336,7 @@ class PaymentActivity : AppCompatActivity(),
      */
     fun backToRegister(v : View) {
         finish()
+        finish()
     }
 
     /***
@@ -345,15 +346,19 @@ class PaymentActivity : AppCompatActivity(),
         if (orderId > 0) {
             orderAPI.deleteOrder(orderId).enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    println(response.raw())
+                    println(response.isSuccessful)
                     onBackPressed()
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    println("Failed to delete order")
                     onBackPressed()
                 }
             })
         }
         else {
+            println(orderId)
             onBackPressed()
         }
 

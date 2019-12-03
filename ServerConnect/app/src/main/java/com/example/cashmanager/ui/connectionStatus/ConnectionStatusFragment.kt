@@ -95,10 +95,14 @@ class ConnectionStatusFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    statusTextView?.text = resources.getString(R.string.status_disconnected)
-                    statusTextView?.setBackgroundColor(
-                        ContextCompat.getColor(context!!, R.color.colorFailure)
-                    )
+                    try {
+                        statusTextView?.text = resources.getString(R.string.status_disconnected)
+                        statusTextView?.setBackgroundColor(
+                            ContextCompat.getColor(context!!, R.color.colorFailure)
+                        )
+                    } catch (ex: Exception) {
+                        ex.printStackTrace()
+                    }
                 }
 
             })

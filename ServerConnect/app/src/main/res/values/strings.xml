@@ -78,6 +78,7 @@
     <!-- Bill total activity-->
     <string name="bill_activity_title">Total Bill</string>
     <string name="cart_products">Products in your cart: </string>
+    <string name="order_created">Order saved online</string>
     <plurals name="items">
         <item quantity="one">%d item</item>
         <item quantity="other">%d items</item>
